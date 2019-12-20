@@ -10,7 +10,7 @@ data:extend({
         flags = {"hidden", "not-stackable", "only-in-cursor"},
         subgroup = "other",
         order = "aa-a[zone-selector]",
-        icon = "__core__/graphics/clone-icon.png",
+        icon = "__assemblyanalyst__/graphics/tool-zone-selector.png",
         icon_size = 32,
 
         selection_color = { r = 0, g = 0.75, b = 1 },
@@ -47,11 +47,21 @@ data:extend({
         order = "aa-a[select-zone]",
         icon =
         {
-            filename = "__core__/graphics/clone-icon.png",
-            priority = "extra-high-no-scale",
+            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-32.png",
+            flags = {"icon"},
             size = 32,
-            scale = 1,
-            flags = {"icon"}
+        },
+        small_icon =
+        {
+            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-24.png",
+            flags = {"icon"},
+            size = 24
+        },
+        disabled_small_icon =
+        {
+            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-white-24.png",
+            flags = {"icon"},
+            size = 24
         }
     },
 })
