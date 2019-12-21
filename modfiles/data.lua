@@ -1,4 +1,4 @@
-local zone_selector_entity_filters = {"inserter"}
+local zone_selector_entity_filters = {"assembling-machine", "rocket-silo", "furnace"}
 
 data:extend({
     {
@@ -20,7 +20,8 @@ data:extend({
         entity_type_filters = zone_selector_entity_filters,
         
         alt_selection_color = { r = 0.9, g = 0.15, b = 0 },
-        alt_selection_mode = {"entity-with-health"},
+        -- The alt mode is set to nothing for now, so the user doesn't get the impression that he can exclude individual entities from the selection
+        alt_selection_mode = {"nothing"},
         alt_selection_cursor_box_type = "not-allowed",
         alt_entity_filter_mode = "whitelist",
         alt_entity_type_filters = zone_selector_entity_filters
