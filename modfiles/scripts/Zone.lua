@@ -2,16 +2,19 @@
 Zone = {}
 Zone.__index = Zone
 
-function Zone.init(player, area)
+function Zone.init(player, area, entities)
     local zone = {
         surface = player.surface,
         area = area,
+        entity_map = {},
         render_objects = {}
     }
     setmetatable(zone, Zone)
-
+    
     -- If snapping returns false, the zone is not 2-dimensional
     if not zone:snap_to_grid() then return nil end
+
+    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
 
     zone:redraw()
     

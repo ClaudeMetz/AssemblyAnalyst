@@ -12,8 +12,8 @@ local function remove_overlaps(spec)
 end
 
 -- Handles creating a new zone and dealing with overlaps
-function handler.area_selected(player, area)
-    local new_zone = Zone.init(player, area)
+function handler.area_selected(player, area, entities)
+    local new_zone = Zone.init(player, area, entities)
 
     -- If zone creation fails, return here
     if new_zone == nil then return end
