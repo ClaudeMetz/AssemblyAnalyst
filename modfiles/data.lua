@@ -4,7 +4,7 @@ data:extend({
     {
         -- Zone-selector
         type = "selection-tool",
-        name = "aa_zone_selector",
+        name = "aa-zone-selector",
         stack_size = 1,
         show_in_library = false,
         flags = {"hidden", "not-stackable", "only-in-cursor"},
@@ -29,10 +29,10 @@ data:extend({
     {
         -- Keyboard shortcut for the zone-selector
         type = "custom-input",
-        name = "aa_select_zone",
+        name = "aa-select-zone",
         key_sequence = "CONTROL + Z",
         action = "create-blueprint-item",
-        item_to_create = "aa_zone_selector",
+        item_to_create = "aa-zone-selector",
         consuming = "all",
         order = "a"
     },
@@ -40,10 +40,10 @@ data:extend({
     {
         -- Quickbar shortcut for the zone-selector
         type = "shortcut",
-        name = "aa_select_zone",
+        name = "aa-select-zone",
         action = "create-blueprint-item",
-        item_to_create = "aa_zone_selector",
-        associated_control_input = "aa_select_zone",
+        item_to_create = "aa-zone-selector",
+        associated_control_input = "aa-select-zone",
         order = "aa-a[select-zone]",
         icon =
         {
