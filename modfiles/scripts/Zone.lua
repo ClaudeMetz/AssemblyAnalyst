@@ -45,8 +45,11 @@ function Zone:snap_to_grid()
     return (left_top.x < right_bottom.x and left_top.y < right_bottom.y)
 end
 
--- Returns whether the given zone overlaps with this one
-function Zone:overlaps_with(zone)
-    return (self.surface.name == zone.surface.name and
-        math2d.bounding_box.collides_with(self.area, zone.area))
+-- Returns whether the given zone-spec overlaps with this one
+-- (Either specified by a zone object or a surface and an area)
+function Zone:overlaps_with(spec)
+    local surface_name = (spec.zone) and spec.zone.surface.name or spec.surface.name
+    local area = (spec.zone) and spec.zone.area or spec.area
+    return (self.surface.name == surface_name and
+        math2d.bounding_box.collides_with(self.area, area))
 end
