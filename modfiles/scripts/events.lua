@@ -1,5 +1,12 @@
 script.on_init(function()
     global.zones = {}
+    global.current_zone_index = 1
+end)
+
+script.on_load(function()
+    for _, zone in pairs(global.zones) do
+        setmetatable(zone, Zone)
+    end
 end)
 
 

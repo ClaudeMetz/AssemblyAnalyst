@@ -1,16 +1,26 @@
 -- This is a 'class' representing a specific area that is to be analysed
 Zone = {}
+Zone.__index = Zone
 
 function Zone.init(player, area)
-    local zone = Zone
-    zone.surface = player.surface
-    zone.area = area
-    zone.render_objects = {}
+    local zone = {
+        surface = player.surface,
+        area = area,
+        render_objects = {}
+    }
+    setmetatable(zone, Zone)
 
     zone:snap_to_grid()
     zone:redraw()
     
     return zone
+end
+
+-- Runs cleanup before this zone can be dereferenced
+function Zone:destroy()
+    for _, render_object_id in pairs(self.render_objects) do
+        rendering.destroy(render_object_id)
+    end
 end
 
 -- Redraws everything related to the zone
@@ -28,4 +38,10 @@ function Zone:snap_to_grid()
     local right_bottom = self.area.right_bottom
     right_bottom.x = math.floor(right_bottom.x+0.5)
     right_bottom.y = math.floor(right_bottom.y+0.5)
+end
+
+-- Returns whether the given zone overlaps with this one
+function Zone:overlaps_with(zone)
+    return (self.surface.name == zone.surface.name and
+        math2d.bounding_box.collides_with(self.area, zone.area))
 end
