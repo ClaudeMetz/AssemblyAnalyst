@@ -10,7 +10,9 @@ function Zone.init(player, area)
     }
     setmetatable(zone, Zone)
 
-    zone:snap_to_grid()
+    -- If snapping returns false, the zone is not 2-dimensional
+    if not zone:snap_to_grid() then return nil end
+
     zone:redraw()
     
     return zone
@@ -38,6 +40,9 @@ function Zone:snap_to_grid()
     local right_bottom = self.area.right_bottom
     right_bottom.x = math.floor(right_bottom.x+0.5)
     right_bottom.y = math.floor(right_bottom.y+0.5)
+
+    -- Make sure that the zone is two-dimensional
+    return (left_top.x < right_bottom.x and left_top.y < right_bottom.y)
 end
 
 -- Returns whether the given zone overlaps with this one

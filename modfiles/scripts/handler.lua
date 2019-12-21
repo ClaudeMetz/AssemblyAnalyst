@@ -4,6 +4,9 @@ handler = {}
 function handler.area_selected(player, area)
     local new_zone = Zone.init(player, area)
 
+    -- If zone creation fails, return here
+    if new_zone == nil then return end
+
     for index, zone in pairs(global.zones) do
         if new_zone:overlaps_with(zone) then
             zone:destroy()
