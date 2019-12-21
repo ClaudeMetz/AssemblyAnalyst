@@ -15,7 +15,7 @@ end
 function handler.area_selected(player, area, entities)
     local new_zone = Zone.init(player, area, entities)
 
-    -- If zone creation fails, return here
+    -- If zone creation fails, abort here
     if new_zone == nil then return end
 
     remove_overlaps{zone = new_zone}

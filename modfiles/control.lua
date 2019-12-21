@@ -1,4 +1,4 @@
-math2d = require("math2d")  -- base game lualib
+--math2d = require("math2d")  -- base game lualib
 
 require("scripts.Zone")
 require("scripts.renderer")
