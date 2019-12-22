@@ -41,6 +41,8 @@ end
 
 -- Handles a relevant entity being built, adding it to a zone if applicable
 function handler.entity_built(entity)
+    if entity.type == "entity-ghost" then return end
+
     -- Determine actual entity area
     local collision_box, position = entity.prototype.collision_box, entity.position
     local spec = {
