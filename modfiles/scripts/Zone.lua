@@ -52,7 +52,7 @@ function Zone:set_entity(unit_number, entity)
     self.entity_map[unit_number] = entity
     self.update_schedule:reset()
     self.redraw_schedule:reset()
-    self:reset_entity_data()
+    if settings.global["aa-reset-data-on-change"].value == true then self:reset_entity_data() end
 end
 
 

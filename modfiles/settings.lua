@@ -5,5 +5,12 @@ data:extend{
         setting_type = "runtime-global",
         default_value = true,
         order = "a"
+    },
+    {
+        type = "bool-setting",
+        name = "aa-reset-data-on-change",
+        setting_type = "runtime-global",
+        default_value = false,
+        order = "b"
     }
 }
