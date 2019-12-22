@@ -31,9 +31,5 @@ end)
 
 
 script.on_event(defines.events.on_tick, function(event)
-    for _, zone in pairs(global.zones) do
-        -- Calling the tick-functions here is not very clean abstraction-wise, but better for performance as it avoids another layer of function calls
-        zone.update_schedule:tick()
-        zone.redraw_schedule:tick()
-    end
+    handler.refresh_entities()
 end)

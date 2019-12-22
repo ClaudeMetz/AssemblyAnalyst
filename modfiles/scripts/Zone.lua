@@ -7,7 +7,7 @@ function Zone.init(player, area, entities)
         surface = player.surface,
         area = area,
         entity_map = {},
-        entity_data = {},
+        entity_data = nil,
         update_schedule = nil,
         redraw_schedule = nil,
         render_objects = {}
@@ -18,11 +18,8 @@ function Zone.init(player, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x > right_bottom.x and left_top.y < right_bottom.y then return nil end
 
-    for _, entity in pairs(entities) do
-        zone.entity_map[entity.unit_number] = entity
-        local internal_type = entity_type_map[entity.type]
-        zone.entity_data[entity.unit_number] = _G[internal_type].data_init()
-    end
+    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
+    zone:reset_entity_data()
 
     zone.update_schedule = Schedule.init(zone, "update", 1)
     zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
@@ -39,6 +36,23 @@ function Zone:destroy()
     for _, render_object_id in pairs(self.render_objects) do
         rendering.destroy(render_object_id)
     end
+end
+
+
+function Zone:reset_entity_data()
+    self.entity_data = {}
+    for unit_number, entity in pairs(self.entity_map) do
+        local internal_type = entity_type_map[entity.type]
+        self.entity_data[unit_number] = _G[internal_type].data_init()
+    end
+end
+
+-- Can be used to add or remove entities
+function Zone:set_entity(unit_number, entity)
+    self.entity_map[unit_number] = entity
+    self.update_schedule:reset()
+    self.redraw_schedule:reset()
+    self:reset_entity_data()
 end
 
 

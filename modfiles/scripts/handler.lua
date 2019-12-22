@@ -28,3 +28,17 @@ end
 function handler.area_alt_selected(player, area)
     remove_overlaps{surface = player.surface, area = area}
 end
+
+-- Runs the on_tick refresh of every relevant entity
+function handler.refresh_entities()
+    for _, zone in pairs(global.zones) do
+        -- Check for and remove invalid entities
+        for unit_number, entity in pairs(zone.entity_map) do
+            if not entity.valid then zone:set_entity(unit_number, nil) end
+        end
+
+        -- Run update and redraw
+        zone.update_schedule:tick()
+        zone.redraw_schedule:tick()
+    end
+end
