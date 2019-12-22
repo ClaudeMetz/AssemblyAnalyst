@@ -7,6 +7,7 @@ function Zone.init(player, area, entities)
         surface = player.surface,
         area = area,
         entity_map = {},
+        entity_data = {},
         update_schedule = nil,
         redraw_schedule = nil,
         render_objects = {}
@@ -17,15 +18,19 @@ function Zone.init(player, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x > right_bottom.x and left_top.y < right_bottom.y then return nil end
 
-    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
+    for _, entity in pairs(entities) do
+        zone.entity_map[entity.unit_number] = entity
+        local internal_type = entity_type_map[entity.type]
+        zone.entity_data[entity.unit_number] = _G[internal_type].data_init()
+    end
 
-    zone.update_schedule = Schedule.init(zone.entity_map, 1)
-    zone.redraw_schedule = Schedule.init(zone.entity_map, 60)
+    zone.update_schedule = Schedule.init(zone, "update", 1)
+    zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
 
     zone:magnetic_snap()
     zone:snap_to_grid()
 
-    self.render_objects.border = renderer.draw_zone_border(self)
+    zone:draw_border()
     
     return zone
 end
@@ -67,6 +72,13 @@ function Zone:snap_to_grid()
     local right_bottom = self.area.right_bottom
     right_bottom.x = math.floor(right_bottom.x+0.5)
     right_bottom.y = math.floor(right_bottom.y+0.5)
+end
+
+
+function Zone:draw_border()
+    local border_color = { r = 0, g = 0.75, b = 1 }
+    local border = rendering.draw_rectangle{surface=self.surface, left_top=self.area.left_top, right_bottom=self.area.right_bottom, filled=false, width=4, color=border_color, draw_on_ground=true}
+    self.render_objects.border = border
 end
 
 

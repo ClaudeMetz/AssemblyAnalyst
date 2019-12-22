@@ -2,9 +2,11 @@
 
 require("scripts.Zone")
 require("scripts.Schedule")
-require("scripts.renderer")
+
 require("scripts.events")
 require("scripts.handler")
+
+require("scripts.types.assembler")
 
 devmode = true  -- Enables certain conveniences for development
 
@@ -12,3 +14,9 @@ if devmode then
     Profiler = require("lualib.profiler")
     require("lualib.llog")
 end
+
+entity_type_map = {
+    ["assembling-machine"] = "assembler",
+    ["rocket-silo"] = "assembler",
+    ["furnace"] = "assembler"
+}

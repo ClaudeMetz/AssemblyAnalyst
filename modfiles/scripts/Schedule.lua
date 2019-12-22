@@ -2,9 +2,10 @@
 Schedule = {}
 Schedule.__index = Schedule
 
-function Schedule.init(zone, cycle_rate)
+function Schedule.init(zone, action, cycle_rate)
     local schedule = {
         zone = zone,
+        action = action,
         cycles = {},
         cycle_rate = cycle_rate,
         current_cycle = 1
@@ -32,8 +33,12 @@ end
 function Schedule:tick()
     local cycle = self.cycles[self.current_cycle]
 
-    for _, entity in pairs(cycle) do
-        -- update
+    if cycle ~= nil then  -- there might not be any work to do
+        for unit_number, entity in pairs(cycle) do
+            local internal_type = entity_type_map[entity.type]
+            local data = self.zone.entity_data[unit_number]
+            _G[internal_type][self.action](entity, data)
+        end
     end
 
     if self.current_cycle == self.cycle_rate then self.current_cycle = 1
