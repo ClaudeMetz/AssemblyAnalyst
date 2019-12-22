@@ -26,9 +26,9 @@ function Schedule:reset()
     local actions_per_cycle = math.ceil(table_size(entity_map) / self.cycle_rate)
     local this_cycle, actions_this_cycle = 1, 0
 
-    for _, entity in pairs(entity_map) do
+    for unit_number, entity in pairs(entity_map) do
         self.cycles[this_cycle] = self.cycles[this_cycle] or {}
-        table.insert(self.cycles[this_cycle], entity)
+        self.cycles[this_cycle][unit_number] = entity
         
         actions_this_cycle = actions_this_cycle + 1
         if actions_this_cycle == actions_per_cycle then

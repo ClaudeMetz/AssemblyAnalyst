@@ -56,6 +56,8 @@ function Zone:revalidate(force_refresh)
         end
     end
     if entity_removed or force_refresh then self:refresh() end
+    
+    return true
 end
 
 -- Refreshes this area and schedule
