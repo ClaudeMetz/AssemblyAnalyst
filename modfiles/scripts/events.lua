@@ -1,11 +1,13 @@
 script.on_init(function()
     global.zones = {}
-    global.current_zone_index = 1
+    global.zone_running_index = 1
 end)
 
 script.on_load(function()
     for _, zone in pairs(global.zones) do
         setmetatable(zone, Zone)
+        setmetatable(zone.update_schedule, Schedule)
+        setmetatable(zone.redraw_schedule, Schedule)
     end
 end)
 
@@ -24,5 +26,14 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 
     if event.item == "aa-zone-selector" then
         handler.area_alt_selected(player, event.area)
+    end
+end)
+
+
+script.on_event(defines.events.on_tick, function(event)
+    for _, zone in pairs(global.zones) do
+        -- Calling the tick-functions here is not very clean abstraction-wise, but better for performance as it avoids another layer of function calls
+        zone.update_schedule:tick()
+        zone.redraw_schedule:tick()
     end
 end)

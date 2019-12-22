@@ -20,8 +20,8 @@ function handler.area_selected(player, area, entities)
 
     remove_overlaps{zone = new_zone}
 
-    global.zones[global.current_zone_index] = new_zone
-    global.current_zone_index = global.current_zone_index + 1
+    global.zones[global.zone_running_index] = new_zone
+    global.zone_running_index = global.zone_running_index + 1
 end
 
 -- Removes all zones that overlap with the given area

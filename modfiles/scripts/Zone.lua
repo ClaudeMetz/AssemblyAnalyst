@@ -7,6 +7,8 @@ function Zone.init(player, area, entities)
         surface = player.surface,
         area = area,
         entity_map = {},
+        update_schedule = nil,
+        redraw_schedule = nil,
         render_objects = {}
     }
     setmetatable(zone, Zone)
@@ -17,27 +19,21 @@ function Zone.init(player, area, entities)
 
     for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
 
+    zone.update_schedule = Schedule.init(zone.entity_map, 1)
+    zone.redraw_schedule = Schedule.init(zone.entity_map, 60)
+
     zone:magnetic_snap()
     zone:snap_to_grid()
 
-    zone:redraw()
+    self.render_objects.border = renderer.draw_zone_border(self)
     
     return zone
 end
 
--- Runs cleanup before this zone can be dereferenced
 function Zone:destroy()
     for _, render_object_id in pairs(self.render_objects) do
         rendering.destroy(render_object_id)
     end
-end
-
-
--- Redraws everything related to the zone
-function Zone:redraw()
-    local border_id = self.render_objects.border
-    if border_id then rendering.destroy(border_id) end
-    self.render_objects.border = renderer.draw_zone_border(self)
 end
 
 
