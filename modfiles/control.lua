@@ -1,3 +1,5 @@
+--pcall(require,'__debugadapter__/debugadapter.lua')
+
 math2d = require("math2d")  -- base game lualib
 
 require("scripts.Zone")
