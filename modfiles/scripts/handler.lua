@@ -1,5 +1,14 @@
 handler = {}
 
+-- Reloads the current settings to the global table
+function handler.reload_settings()
+    global.settings = {
+        ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
+        ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value
+    }
+end
+
+
 -- Removes all zones that overlap with the given area
 local function remove_overlaps(spec)
     local zones = global.zones

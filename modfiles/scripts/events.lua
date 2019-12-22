@@ -1,6 +1,7 @@
 script.on_init(function()
     global.zones = {}
     global.zone_running_index = 1
+    handler.reload_settings()
 end)
 
 script.on_load(function()
@@ -9,6 +10,10 @@ script.on_load(function()
         setmetatable(zone.update_schedule, Schedule)
         setmetatable(zone.redraw_schedule, Schedule)
     end
+end)
+
+script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
+    if event.setting_type == "runtime-global" then handler.reload_settings() end
 end)
 
 

@@ -59,7 +59,7 @@ function Zone:refresh()
 
     self.update_schedule:reset()
     self.redraw_schedule:reset()
-    if settings.global["aa-reset-data-on-change"].value == true then self:reset_entity_data() end
+    if global.settings["reset-data-on-change"] then self:reset_entity_data() end
 end
 
 -- Resets any entity data that has been collected
@@ -73,7 +73,7 @@ end
 
 -- Adjusts the zone to fit snugly around it's entities, if the setting is active
 function Zone:magnetic_snap()
-    if settings.global["aa-magnetic-selection"].value == true and table_size(self.entity_map) > 0 then
+    if global.settings["magnetic-selection"] and table_size(self.entity_map) > 0 then
         local min_x, max_x, min_y, max_y
         
         for _, entity in pairs(self.entity_map) do
