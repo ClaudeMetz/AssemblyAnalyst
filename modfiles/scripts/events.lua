@@ -7,7 +7,7 @@ end)
 script.on_load(function()
     for _, zone in pairs(global.zones) do
         setmetatable(zone, Zone)
-        setmetatable(zone.update_schedule, Schedule)
+        setmetatable(zone.observe_schedule, Schedule)
         setmetatable(zone.redraw_schedule, Schedule)
     end
 end)

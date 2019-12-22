@@ -24,7 +24,7 @@ function assembler.data_init()
     }
 end
 
-function assembler.update(entity, data)
+function assembler.observe(entity, data)
     local category = category_map[entity.status]
     data[category] = data[category] + 1
 end

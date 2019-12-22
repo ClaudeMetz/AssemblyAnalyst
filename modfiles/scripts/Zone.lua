@@ -9,7 +9,7 @@ function Zone.init(player, area, entities)
         area = area,
         entity_map = {},
         entity_data = nil,
-        update_schedule = nil,
+        observe_schedule = nil,
         redraw_schedule = nil,
         render_objects = {}
     }
@@ -22,7 +22,7 @@ function Zone.init(player, area, entities)
     for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
     zone:reset_entity_data()
 
-    zone.update_schedule = Schedule.init(zone, "update", 1)
+    zone.observe_schedule = Schedule.init(zone, "observe", 1)
     zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
 
     zone:magnetic_snap()
@@ -67,7 +67,7 @@ function Zone:refresh()
         self:redraw_border()
     end
 
-    self.update_schedule:reset()
+    self.observe_schedule:reset()
     self.redraw_schedule:reset()
     if global.settings["reset-data-on-change"] then self:reset_entity_data() end
 end

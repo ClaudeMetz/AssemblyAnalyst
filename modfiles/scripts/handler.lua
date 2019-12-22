@@ -76,7 +76,7 @@ function handler.on_tick()
     for _, zone in pairs(global.zones) do
         if not zone:revalidate(false) then break end
 
-        zone.update_schedule:tick()
+        zone.observe_schedule:tick()
         zone.redraw_schedule:tick()
     end
 end
