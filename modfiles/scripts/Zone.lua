@@ -4,6 +4,7 @@ Zone.__index = Zone
 
 function Zone.init(player, area, entities)
     local zone = {
+        index = nil,
         surface = player.surface,
         area = area,
         entity_map = {},
@@ -40,6 +41,13 @@ end
 
 -- Removes any entities that have become invalid, refresh optionally
 function Zone:revalidate(force_refresh)
+    -- Remove zone if its surface has become invalid
+    if not self.surface.valid then
+        self:destroy()
+        global.zones[self.index] = nil
+        return false
+    end
+    
     local entity_removed = false
     for unit_number, entity in pairs(self.entity_map) do
         if not entity.valid then

@@ -29,6 +29,7 @@ function handler.area_selected(player, area, entities)
 
     remove_overlaps{zone = new_zone}
 
+    new_zone.index = global.zone_running_index
     global.zones[global.zone_running_index] = new_zone
     global.zone_running_index = global.zone_running_index + 1
 end
@@ -73,7 +74,7 @@ end
 -- Runs the on_tick refresh of every relevant entity
 function handler.on_tick()
     for _, zone in pairs(global.zones) do
-        zone:revalidate(false)
+        if not zone:revalidate(false) then break end
 
         zone.update_schedule:tick()
         zone.redraw_schedule:tick()
