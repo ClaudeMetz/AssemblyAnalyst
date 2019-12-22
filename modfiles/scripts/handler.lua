@@ -29,15 +29,41 @@ function handler.area_alt_selected(player, area)
     remove_overlaps{surface = player.surface, area = area}
 end
 
--- Runs the on_tick refresh of every relevant entity
-function handler.refresh_entities()
-    for _, zone in pairs(global.zones) do
-        -- Check for and remove invalid entities
-        for unit_number, entity in pairs(zone.entity_map) do
-            if not entity.valid then zone:set_entity(unit_number, nil) end
-        end
 
-        -- Run update and redraw
+-- Handles a relevant entity being built, adding it to a zone if applicable
+function handler.entity_built(entity)
+    -- Determine actual entity area
+    local collision_box, position = entity.prototype.collision_box, entity.position
+    local spec = {
+        surface = entity.surface,
+        area = {
+            left_top = {
+                x = position.x + collision_box.left_top.x,
+                y = position.y + collision_box.left_top.y
+            },
+            right_bottom = {
+                x = position.x + collision_box.right_bottom.x,
+                y = position.y + collision_box.right_bottom.y
+            }
+        }
+    }
+
+    -- Check if it overlaps with any of the active zones
+    for _, zone in pairs(global.zones) do
+        if zone:overlaps_with(spec) then
+            zone.entity_map[entity.unit_number] = entity
+            zone:revalidate(true)
+            break
+        end
+    end
+end
+
+
+-- Runs the on_tick refresh of every relevant entity
+function handler.on_tick()
+    for _, zone in pairs(global.zones) do
+        zone:revalidate(false)
+
         zone.update_schedule:tick()
         zone.redraw_schedule:tick()
     end

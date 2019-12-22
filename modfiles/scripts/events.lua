@@ -29,7 +29,18 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
     end
 end)
 
+script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, function(event)
+    handler.entity_built(event.created_entity)
+end)
+
+script.on_event(defines.events.script_raised_built, function(event)
+    -- Only pass on entities of a relevant type
+    if entity_type_map[entity.type] ~= nil then
+        handler.entity_built(event.entity)
+    end
+end)
+
 
 script.on_event(defines.events.on_tick, function(event)
-    handler.refresh_entities()
+    handler.on_tick()
 end)

@@ -26,8 +26,7 @@ function Zone.init(player, area, entities)
 
     zone:magnetic_snap()
     zone:snap_to_grid()
-
-    zone:draw_border()
+    zone:redraw_border()
     
     return zone
 end
@@ -39,20 +38,36 @@ function Zone:destroy()
 end
 
 
-function Zone:reset_entity_data()
-    self.entity_data = {}
+-- Removes any entities that have become invalid, refresh optionally
+function Zone:revalidate(force_refresh)
+    local entity_removed = false
     for unit_number, entity in pairs(self.entity_map) do
-        local internal_type = entity_type_map[entity.type]
-        self.entity_data[unit_number] = _G[internal_type].data_init()
+        if not entity.valid then
+            self.entity_map[unit_number] = nil
+            entity_removed = true
+        end
     end
+    if entity_removed or force_refresh then self:refresh() end
 end
 
--- Can be used to add or remove entities
-function Zone:set_entity(unit_number, entity)
-    self.entity_map[unit_number] = entity
+-- Refreshes this area and schedule
+function Zone:refresh()
+    if self:magnetic_snap() then
+        self:snap_to_grid()
+        self:redraw_border()
+    end
+
     self.update_schedule:reset()
     self.redraw_schedule:reset()
     if settings.global["aa-reset-data-on-change"].value == true then self:reset_entity_data() end
+end
+
+-- Resets any entity data that has been collected
+function Zone:reset_entity_data()
+    self.entity_data = {}
+    for unit_number, entity in pairs(self.entity_map) do
+        self.entity_data[unit_number] = entity_type_map[entity.type].data_init()
+    end
 end
 
 
@@ -74,7 +89,10 @@ function Zone:magnetic_snap()
         
         local left_top, right_bottom = self.area.left_top, self.area.right_bottom
         left_top.x, right_bottom.x, left_top.y, right_bottom.y = min_x, max_x, min_y, max_y
+
+        return true
     end
+    return false
 end
 
 -- Adjusts the area of the zone to the nearest tile borders
@@ -89,15 +107,16 @@ function Zone:snap_to_grid()
 end
 
 
-function Zone:draw_border()
+function Zone:redraw_border()
+    local border = self.render_objects.border
+    if border ~= nil then rendering.destroy(border) end
+
     local border_color = { r = 0, g = 0.75, b = 1 }
-    local border = rendering.draw_rectangle{surface=self.surface, left_top=self.area.left_top, right_bottom=self.area.right_bottom, filled=false, width=4, color=border_color, draw_on_ground=true}
-    self.render_objects.border = border
+    self.render_objects.border = rendering.draw_rectangle{surface=self.surface, left_top=self.area.left_top, right_bottom=self.area.right_bottom, filled=false, width=4, color=border_color, draw_on_ground=true}
 end
 
 
--- Returns whether the given zone-spec overlaps with this one
--- (Either specified by a zone object or a surface and an area)
+-- Returns whether the given zone-spec overlaps with this one (Specified by a zone object or a surface and an area)
 function Zone:overlaps_with(spec)
     local surface_name = (spec.zone) and spec.zone.surface.name or spec.surface.name
     local area = (spec.zone) and spec.zone.area or spec.area

@@ -1,4 +1,4 @@
---math2d = require("math2d")  -- base game lualib
+math2d = require("math2d")  -- base game lualib
 
 require("scripts.Zone")
 require("scripts.Schedule")
@@ -16,7 +16,7 @@ if devmode then
 end
 
 entity_type_map = {
-    ["assembling-machine"] = "assembler",
-    ["rocket-silo"] = "assembler",
-    ["furnace"] = "assembler"
+    ["assembling-machine"] = assembler,
+    ["rocket-silo"] = assembler,
+    ["furnace"] = assembler
 }
