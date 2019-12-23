@@ -11,7 +11,7 @@ function Zone.init(player, area, entities)
         entity_data = nil,
         observe_schedule = nil,
         redraw_schedule = nil,
-        render_objects = {}
+        render_objects = { entities = {} }
     }
     setmetatable(zone, Zone)
     
@@ -33,8 +33,10 @@ function Zone.init(player, area, entities)
 end
 
 function Zone:destroy()
-    for _, render_object_id in pairs(self.render_objects) do
-        rendering.destroy(render_object_id)
+    rendering.destroy(self.render_objects.border)
+
+    for unit_number, _ in pairs(self.entity_map) do
+        self:remove_render_objects(unit_number)
     end
 end
 
@@ -78,6 +80,21 @@ function Zone:reset_entity_data()
     for unit_number, entity in pairs(self.entity_map) do
         self.entity_data[unit_number] = entity_type_map[entity.type].data_init()
     end
+end
+
+-- Removes all render_objects associated to the given unit_number
+function Zone:remove_render_objects(unit_number)
+    local render_objects = self.render_objects.entities
+    local entity_render_objects = render_objects[unit_number]
+    
+    if entity_render_objects ~= nil then
+        for _, render_object_id in pairs(entity_render_objects) do
+            rendering.destroy(render_object_id)
+        end
+    end
+
+    render_objects[unit_number] = {}
+    return render_objects[unit_number]
 end
 
 

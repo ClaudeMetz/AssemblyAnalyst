@@ -45,7 +45,7 @@ function Schedule:tick()
     if cycle ~= nil then  -- there might not be any work to do
         for unit_number, entity in pairs(cycle) do
             local data = self.zone.entity_data[unit_number]
-            entity_type_map[entity.type][self.action](entity, data)
+            entity_type_map[entity.type][self.action](self.zone, entity, data)
         end
     end
 
