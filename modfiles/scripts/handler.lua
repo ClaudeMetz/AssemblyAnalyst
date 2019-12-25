@@ -22,12 +22,11 @@ end
 
 -- Handles creating a new zone and dealing with overlaps
 function handler.area_selected(player, area, entities)
+    remove_overlaps{surface = player.surface, area = area}
+    
     local new_zone = Zone.init(player, area, entities)
-
     -- If zone creation fails, abort here
     if new_zone == nil then return end
-
-    remove_overlaps{zone = new_zone}
 
     new_zone.index = global.zone_running_index
     global.zones[global.zone_running_index] = new_zone
@@ -67,16 +66,5 @@ function handler.entity_built(entity)
             zone:revalidate(true)
             break
         end
-    end
-end
-
-
--- Runs the on_tick refresh of every relevant entity
-function handler.on_tick()
-    for _, zone in pairs(global.zones) do
-        if not zone:revalidate(false) then break end
-
-        zone.observe_schedule:tick()
-        zone.redraw_schedule:tick()
     end
 end

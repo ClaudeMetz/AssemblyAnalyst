@@ -5,10 +5,10 @@ math2d = require("math2d")  -- base game lualib
 require("scripts.Zone")
 require("scripts.Schedule")
 
+require("scripts.maps")
 require("scripts.events")
 require("scripts.handler")
-
-require("scripts.types.assembler")
+require("scripts.updater")
 
 devmode = true  -- Enables certain conveniences for development
 
@@ -16,9 +16,3 @@ if devmode then
     Profiler = require("lualib.profiler")
     require("lualib.llog")
 end
-
-entity_type_map = {
-    ["assembling-machine"] = assembler,
-    ["rocket-silo"] = assembler,
-    ["furnace"] = assembler
-}

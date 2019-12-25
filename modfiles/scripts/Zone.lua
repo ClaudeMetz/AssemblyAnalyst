@@ -15,18 +15,18 @@ function Zone.init(player, area, entities)
     }
     setmetatable(zone, Zone)
     
-    -- Make sure that the zone is 2-dimensional, else cancel the init process
-    local left_top, right_bottom = area.left_top, area.right_bottom
-    if left_top.x > right_bottom.x and left_top.y < right_bottom.y then return nil end
-
     for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
-    zone:reset_entity_data()
-
-    zone.observe_schedule = Schedule.init(zone, "observe", 1)
-    zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
-
     zone:magnetic_snap()
     zone:snap_to_grid()
+    
+    -- Make sure that the zone is 2-dimensional, else cancel the init process
+    local left_top, right_bottom = area.left_top, area.right_bottom
+    if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
+    
+    zone.observe_schedule = Schedule.init(zone, "observe", 1)
+    zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
+    zone:reset_entity_data()
+
     zone:redraw_border()
     
     return zone
@@ -78,7 +78,7 @@ end
 function Zone:reset_entity_data()
     self.entity_data = {}
     for unit_number, entity in pairs(self.entity_map) do
-        self.entity_data[unit_number] = entity_type_map[entity.type].data_init()
+        self.entity_data[unit_number] = updater.data_init()
     end
 end
 
@@ -145,7 +145,5 @@ end
 
 -- Returns whether the given zone-spec overlaps with this one (Specified by a zone object or a surface and an area)
 function Zone:overlaps_with(spec)
-    local surface_name = (spec.zone) and spec.zone.surface.name or spec.surface.name
-    local area = (spec.zone) and spec.zone.area or spec.area
-    return (self.surface.name == surface_name and math2d.bounding_box.collides_with(self.area, area))
+    return (self.surface.name == spec.surface.name and math2d.bounding_box.collides_with(self.area, spec.area))
 end

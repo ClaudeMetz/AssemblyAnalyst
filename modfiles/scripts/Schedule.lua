@@ -43,9 +43,10 @@ function Schedule:tick()
     local cycle = self.cycles[self.current_cycle]
 
     if cycle ~= nil then  -- there might not be any work to do
+        local updater_function = updater[self.action]
         for unit_number, entity in pairs(cycle) do
             local data = self.zone.entity_data[unit_number]
-            entity_type_map[entity.type][self.action](self.zone, entity, data)
+            updater_function(entity, data, self.zone)
         end
     end
 
