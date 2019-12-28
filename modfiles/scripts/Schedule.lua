@@ -1,11 +1,10 @@
--- This is a 'class' representing an update schedule for the zone it's attached to
+-- This is a 'class' representing an redraw-schedule, attached to a specific zone
 Schedule = {}
 Schedule.__index = Schedule
 
-function Schedule.init(zone, action, cycle_rate)
+function Schedule.init(zone, cycle_rate)
     local schedule = {
         zone = zone,
-        action = action,
         cycles = nil,
         cycle_rate = cycle_rate,
         current_cycle = nil
@@ -26,9 +25,9 @@ function Schedule:reset()
     local actions_per_cycle = math.ceil(table_size(entity_map) / self.cycle_rate)
     local this_cycle, actions_this_cycle = 1, 0
 
-    for unit_number, entity in pairs(entity_map) do
+    for _, entity in pairs(entity_map) do
         self.cycles[this_cycle] = self.cycles[this_cycle] or {}
-        self.cycles[this_cycle][unit_number] = entity
+        table.insert(self.cycles[this_cycle], entity)
         
         actions_this_cycle = actions_this_cycle + 1
         if actions_this_cycle == actions_per_cycle then
@@ -43,11 +42,7 @@ function Schedule:tick()
     local cycle = self.cycles[self.current_cycle]
 
     if cycle ~= nil then  -- there might not be any work to do
-        local updater_function = updater[self.action]
-        for unit_number, entity in pairs(cycle) do
-            local data = self.zone.entity_data[unit_number]
-            updater_function(entity, data, self.zone)
-        end
+        for _, entity in pairs(cycle) do entity:redraw_statusbar() end
     end
 
     if self.current_cycle == self.cycle_rate then self.current_cycle = 1

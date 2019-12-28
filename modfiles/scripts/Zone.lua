@@ -2,20 +2,17 @@
 Zone = {}
 Zone.__index = Zone
 
-function Zone.init(player, area, entities)
+function Zone.init(surface, area, entities)
     local zone = {
-        index = nil,
-        surface = player.surface,
+        surface = surface,
         area = area,
         entity_map = {},
-        entity_data = nil,
-        observe_schedule = nil,
         redraw_schedule = nil,
-        render_objects = { entities = {} }
+        render_objects = {}
     }
     setmetatable(zone, Zone)
     
-    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = entity end
+    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = Entity.init(entity) end
     zone:magnetic_snap()
     zone:snap_to_grid()
     
@@ -23,10 +20,7 @@ function Zone.init(player, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
     
-    zone.observe_schedule = Schedule.init(zone, "observe", 1)
-    zone.redraw_schedule = Schedule.init(zone, "redraw", 60)
-    zone:reset_entity_data()
-
+    zone.redraw_schedule = Schedule.init(zone, redraw_cycle_rate)
     zone:redraw_border()
     
     return zone
@@ -34,33 +28,9 @@ end
 
 function Zone:destroy()
     rendering.destroy(self.render_objects.border)
-
-    for unit_number, _ in pairs(self.entity_map) do
-        self:remove_render_objects(unit_number)
-    end
+    for _, entity in pairs(self.entity_map) do entity:destroy() end
 end
 
-
--- Removes any entities that have become invalid, refresh optionally
-function Zone:revalidate(force_refresh)
-    -- Remove zone if its surface has become invalid
-    if not self.surface.valid then
-        self:destroy()
-        global.zones[self.index] = nil
-        return false
-    end
-    
-    local entity_removed = false
-    for unit_number, entity in pairs(self.entity_map) do
-        if not entity.valid then
-            self.entity_map[unit_number] = nil
-            entity_removed = true
-        end
-    end
-    if entity_removed or force_refresh then self:refresh() end
-    
-    return true
-end
 
 -- Refreshes this area and schedule
 function Zone:refresh()
@@ -69,32 +39,17 @@ function Zone:refresh()
         self:redraw_border()
     end
 
-    self.observe_schedule:reset()
     self.redraw_schedule:reset()
-    if global.settings["reset-data-on-change"] then self:reset_entity_data() end
+    self:reset_entity_data()
 end
 
 -- Resets any entity data that has been collected
 function Zone:reset_entity_data()
-    self.entity_data = {}
-    for unit_number, entity in pairs(self.entity_map) do
-        self.entity_data[unit_number] = updater.data_init()
-    end
-end
-
--- Removes all render_objects associated to the given unit_number
-function Zone:remove_render_objects(unit_number)
-    local render_objects = self.render_objects.entities
-    local entity_render_objects = render_objects[unit_number]
-    
-    if entity_render_objects ~= nil then
-        for _, render_object_id in pairs(entity_render_objects) do
-            rendering.destroy(render_object_id)
+    if global.settings["reset-data-on-change"] then
+        for _, entity in pairs(self.entity_map) do
+            entity.statistics = data.statistics_template()
         end
     end
-
-    render_objects[unit_number] = {}
-    return render_objects[unit_number]
 end
 
 
@@ -104,9 +59,9 @@ function Zone:magnetic_snap()
         local min_x, max_x, min_y, max_y
         
         for _, entity in pairs(self.entity_map) do
-            local position = entity.position
+            local position = entity.object.position
             local x_position, y_position = position.x, position.y
-            local collision_box = entity.prototype.collision_box
+            local collision_box = entity.object.prototype.collision_box
             
             min_x = math.min((min_x or x_position), (x_position + collision_box.left_top.x))
             max_x = math.max((max_x or x_position), (x_position + collision_box.right_bottom.x))
@@ -143,7 +98,6 @@ function Zone:redraw_border()
 end
 
 
--- Returns whether the given zone-spec overlaps with this one (Specified by a zone object or a surface and an area)
 function Zone:overlaps_with(spec)
     return (self.surface.name == spec.surface.name and math2d.bounding_box.collides_with(self.area, spec.area))
 end

@@ -7,8 +7,8 @@ end)
 script.on_load(function()
     for _, zone in pairs(global.zones) do
         setmetatable(zone, Zone)
-        setmetatable(zone.observe_schedule, Schedule)
         setmetatable(zone.redraw_schedule, Schedule)
+        for _, entity in pairs(zone.entity_map) do setmetatable(entity, Entity) end
     end
 end)
 
@@ -35,24 +35,11 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 end)
 
 
-script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, function(event)
-    handler.entity_built(event.created_entity)
-end)
+script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, handler.entity_built)
 
 script.on_event(defines.events.script_raised_built, function(event)
-    -- Only pass on entities of a relevant type
-    if maps.type_to_category[entity.type] ~= nil then
-        handler.entity_built(event.entity)
-    end
+    if data.type_to_category[entity.type] ~= nil then handler.entity_built(event) end
 end)
 
 
--- Code is run here directly to avoid an additional function call
-script.on_event(defines.events.on_tick, function(event)
-    for _, zone in pairs(global.zones) do
-        if not zone:revalidate(false) then break end
-
-        zone.observe_schedule:tick()
-        zone.redraw_schedule:tick()
-    end
-end)
+script.on_event(defines.events.on_tick, handler.on_tick)
