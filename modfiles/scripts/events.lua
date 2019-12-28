@@ -35,7 +35,8 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 end)
 
 
-script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, handler.entity_built)
+script.on_event(defines.events.on_built_entity, handler.entity_built, data.entity_built_filter)
+script.on_event(defines.events.on_robot_built_entity, handler.entity_built, data.entity_built_filter)
 
 script.on_event(defines.events.script_raised_built, function(event)
     if data.type_to_category[entity.type] ~= nil then handler.entity_built(event) end

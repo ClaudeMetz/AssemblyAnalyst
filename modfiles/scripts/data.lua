@@ -1,5 +1,9 @@
 data = { status_to_statistic = {} }
 
+data.entity_built_filter = {
+    {filter="crafting-machine"}
+}
+
 data.type_to_category = {
     ["assembling-machine"] = "assembler",
     ["rocket-silo"] = "assembler",
