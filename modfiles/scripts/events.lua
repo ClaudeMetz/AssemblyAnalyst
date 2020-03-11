@@ -12,6 +12,10 @@ script.on_load(function()
     end
 end)
 
+script.on_configuration_changed(function()
+    handler.reload_settings()
+end)
+
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     if event.setting_type == "runtime-global" then handler.reload_settings() end

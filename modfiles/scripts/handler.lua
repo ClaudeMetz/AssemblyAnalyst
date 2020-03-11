@@ -4,6 +4,7 @@ handler = {}
 function handler.reload_settings()
     global.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
+        ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
         ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value
     }
 end

@@ -8,9 +8,16 @@ data:extend{
     },
     {
         type = "bool-setting",
+        name = "aa-resnap-zone-on-change",
+        setting_type = "runtime-global",
+        default_value = true,
+        order = "b"
+    },
+    {
+        type = "bool-setting",
         name = "aa-reset-data-on-change",
         setting_type = "runtime-global",
         default_value = false,
-        order = "b"
+        order = "c"
     }
 }

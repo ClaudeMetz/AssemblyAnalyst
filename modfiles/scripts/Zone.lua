@@ -13,7 +13,7 @@ function Zone.init(surface, area, entities)
     setmetatable(zone, Zone)
     
     for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = Entity.init(entity) end
-    zone:magnetic_snap()
+    if global.settings["magnetic-selection"] then zone:magnetic_snap() end
     zone:snap_to_grid()
     
     -- Make sure that the zone is 2-dimensional, else cancel the init process
@@ -34,7 +34,8 @@ end
 
 -- Refreshes this area and schedule
 function Zone:refresh()
-    if self:magnetic_snap() then
+    if global.settings["resnap-zone-on-change"] then
+        self:magnetic_snap()
         self:snap_to_grid()
         self:redraw_border()
     end
@@ -55,7 +56,7 @@ end
 
 -- Adjusts the zone to fit snugly around it's entities, if the setting is active
 function Zone:magnetic_snap()
-    if global.settings["magnetic-selection"] and table_size(self.entity_map) > 0 then
+    if table_size(self.entity_map) > 0 then
         local min_x, max_x, min_y, max_y
         
         for _, entity in pairs(self.entity_map) do
@@ -71,10 +72,7 @@ function Zone:magnetic_snap()
         
         local left_top, right_bottom = self.area.left_top, self.area.right_bottom
         left_top.x, right_bottom.x, left_top.y, right_bottom.y = min_x, max_x, min_y, max_y
-
-        return true
     end
-    return false
 end
 
 -- Adjusts the area of the zone to the nearest tile borders
