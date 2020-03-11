@@ -3,6 +3,7 @@ math2d = require("math2d")  -- base game lualib
 require("scripts.data")
 require("scripts.handler")
 require("scripts.events")
+require("scripts.gui")
 require("scripts.util")
 
 require("scripts.Zone")

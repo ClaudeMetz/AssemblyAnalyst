@@ -39,6 +39,17 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 end)
 
 
+script.on_event(defines.events.on_player_cursor_stack_changed, function(event)
+    local player = game.get_player(event.player_index)
+
+    if player.cursor_stack.valid_for_read and player.cursor_stack.name == "aa-zone-selector" then
+        gui.create_info_window(player)
+    else
+        gui.destroy_info_window(player)
+    end
+end)
+
+
 script.on_event(defines.events.on_built_entity, handler.entity_built, data.entity_built_filter)
 script.on_event(defines.events.on_robot_built_entity, handler.entity_built, data.entity_built_filter)
 
