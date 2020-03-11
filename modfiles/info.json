@@ -1,11 +1,11 @@
 {
     "name": "assemblyanalyst",
-    "version": "0.17.0",
+    "version": "0.18.0",
     "title": "Assembly Analyst",
     "author": "Therenas",
     "description": "Analyses your assembly",
-    "factorio_version": "0.17",
+    "factorio_version": "0.18",
     "dependencies": [
-        "base >= 0.17.79"
+        "base >= 0.18"
     ]
 }
