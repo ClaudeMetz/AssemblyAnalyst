@@ -17,7 +17,7 @@ function Entity.init(object)
     local category = data.type_to_category[object.type]
     entity.status_to_statistic = data.status_to_statistic[category]
 
-    local entity_area = handler.determine_entity_area(object)
+    local entity_area = util.determine_entity_area(object)
     entity_area.left_top.y = (entity_area.right_bottom.y - 0.25)
     entity_area.usable_width = (entity_area.right_bottom.x - entity_area.left_top.x)
     entity.statusbar_area = entity_area

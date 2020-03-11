@@ -9,36 +9,10 @@ function handler.reload_settings()
     }
 end
 
--- Determines the actual area an entity takes up
-function handler.determine_entity_area(entity)
-    local collision_box, position = entity.prototype.collision_box, entity.position
-    return {
-        left_top = {
-            x = position.x + collision_box.left_top.x,
-            y = position.y + collision_box.left_top.y
-        },
-        right_bottom = {
-            x = position.x + collision_box.right_bottom.x,
-            y = position.y + collision_box.right_bottom.y
-        }
-    }
-end
-
-
--- Removes all zones that overlap with the given area
-local function remove_overlaps(spec)
-    local zones = global.zones
-    for index, zone in pairs(zones) do
-        if zone:overlaps_with(spec) then
-            zone:destroy()
-            zones[index] = nil
-        end
-    end
-end
 
 -- Handles creating a new zone and dealing with overlaps
 function handler.area_selected(player, area, entities)
-    remove_overlaps{surface = player.surface, area = area}
+    util.remove_overlapping_zones{surface = player.surface, area = area}
     
     local new_zone = Zone.init(player.surface, area, entities)
     -- If zone creation fails, abort here
@@ -51,7 +25,7 @@ end
 
 -- Removes all zones that overlap with the given area
 function handler.area_alt_selected(player, area)
-    remove_overlaps{surface = player.surface, area = area}
+    util.remove_overlapping_zones{surface = player.surface, area = area}
 end
 
 
@@ -63,7 +37,7 @@ function handler.entity_built(event)
     -- Determine actual entity area
     local spec = {
         surface = entity.surface,
-        area = handler.determine_entity_area(entity)
+        area = util.determine_entity_area(entity)
     }
 
     -- Check if it overlaps with any of the active zones
