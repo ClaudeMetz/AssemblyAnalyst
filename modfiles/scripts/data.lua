@@ -2,14 +2,16 @@ data = { status_to_statistic = {} }
 
 data.entity_built_filter = {
     {filter="crafting-machine"},
-    {filter="type", type="lab"}
+    {filter="type", type="lab"},
+    {filter="type", type="mining-drill"}
 }
 
 data.type_to_category = {
     ["assembling-machine"] = "assembler",
     ["rocket-silo"] = "assembler",
     ["furnace"] = "assembler",
-    ["lab"] = "lab"
+    ["lab"] = "lab",
+    ["mining-drill"] = "mining_drill"
 }
 
 
@@ -35,6 +37,19 @@ data.status_to_statistic.lab = {
     [defines.entity_status.no_fuel] = "insufficient_power",
     [defines.entity_status.low_power] = "insufficient_power",
     [defines.entity_status.no_research_in_progress] = "disabled",
+    [defines.entity_status.disabled_by_script] = "disabled",
+    [defines.entity_status.marked_for_deconstruction] = "disabled"
+}
+
+data.status_to_statistic.mining_drill = {
+    [defines.entity_status.working] = "working",
+    [defines.entity_status.no_minable_resources] = "input_shortage",
+    [defines.entity_status.missing_required_fluid] = "input_shortage",
+    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
+    [defines.entity_status.no_power] = "insufficient_power",
+    [defines.entity_status.no_fuel] = "insufficient_power",
+    [defines.entity_status.low_power] = "insufficient_power",
+    [defines.entity_status.disabled_by_control_behavior] = "disabled",
     [defines.entity_status.disabled_by_script] = "disabled",
     [defines.entity_status.marked_for_deconstruction] = "disabled"
 }
