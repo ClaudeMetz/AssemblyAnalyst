@@ -1,4 +1,4 @@
-local zone_selector_entity_filters = {"assembling-machine", "rocket-silo", "furnace"}
+local zone_selector_entity_filters = {"assembling-machine", "rocket-silo", "furnace", "lab"}
 
 data:extend({
     {

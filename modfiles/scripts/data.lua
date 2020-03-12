@@ -1,13 +1,15 @@
 data = { status_to_statistic = {} }
 
 data.entity_built_filter = {
-    {filter="crafting-machine"}
+    {filter="crafting-machine"},
+    {filter="type", type="lab"}
 }
 
 data.type_to_category = {
     ["assembling-machine"] = "assembler",
     ["rocket-silo"] = "assembler",
-    ["furnace"] = "assembler"
+    ["furnace"] = "assembler",
+    ["lab"] = "lab"
 }
 
 
@@ -18,11 +20,23 @@ data.status_to_statistic.assembler = {
     [defines.entity_status.fluid_ingredient_shortage] = "input_shortage",
     [defines.entity_status.item_ingredient_shortage] = "input_shortage",
     [defines.entity_status.no_power] = "insufficient_power",
+    [defines.entity_status.no_fuel] = "insufficient_power",
     [defines.entity_status.low_power] = "insufficient_power",
     [defines.entity_status.no_recipe] = "disabled",
     [defines.entity_status.disabled_by_script] = "disabled",
     [defines.entity_status.marked_for_deconstruction] = "disabled",
     [defines.entity_status.waiting_to_launch_rocket] = "disabled"
+}
+
+data.status_to_statistic.lab = {
+    [defines.entity_status.working] = "working",
+    [defines.entity_status.missing_science_packs] = "input_shortage",
+    [defines.entity_status.no_power] = "insufficient_power",
+    [defines.entity_status.no_fuel] = "insufficient_power",
+    [defines.entity_status.low_power] = "insufficient_power",
+    [defines.entity_status.no_research_in_progress] = "disabled",
+    [defines.entity_status.disabled_by_script] = "disabled",
+    [defines.entity_status.marked_for_deconstruction] = "disabled"
 }
 
 
