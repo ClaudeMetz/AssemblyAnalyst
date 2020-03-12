@@ -5,7 +5,8 @@ function handler.reload_settings()
     global.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
         ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
-        ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value
+        ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value,
+        ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value
     }
 end
 
@@ -33,6 +34,7 @@ end
 function handler.entity_built(event)
     local entity = event.created_entity or event.entity
     if entity.type == "entity-ghost" then return end
+    if global.settings["exclude-inserters"] and entity.type == "inserter" then return end
 
     -- Determine actual entity area
     local spec = {

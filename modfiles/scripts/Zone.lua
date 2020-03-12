@@ -12,7 +12,13 @@ function Zone.init(surface, area, entities)
     }
     setmetatable(zone, Zone)
     
-    for _, entity in pairs(entities) do zone.entity_map[entity.unit_number] = Entity.init(entity) end
+    local exclude_inserters = global.settings["exclude-inserters"]
+    for _, entity in pairs(entities) do
+        if not (exclude_inserters and entity.type == "inserter") then
+            zone.entity_map[entity.unit_number] = Entity.init(entity)
+        end
+    end
+
     if global.settings["magnetic-selection"] then zone:magnetic_snap() end
     zone:snap_to_grid()
     
