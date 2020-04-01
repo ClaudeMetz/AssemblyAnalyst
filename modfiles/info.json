@@ -3,9 +3,9 @@
     "version": "0.18.0",
     "title": "Assembly Analyst",
     "author": "Therenas",
-    "description": "Analyses your assembly",
+    "description": "This mod allows you to select certain areas of your factory for analysis, revealing what your machines are spending their time on. This will help you pin-point bottlenecks in your designs more easily.",
     "factorio_version": "0.18",
     "dependencies": [
-        "base >= 0.18"
+        "base >= 0.18.0"
     ]
 }
