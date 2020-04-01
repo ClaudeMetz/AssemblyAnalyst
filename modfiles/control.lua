@@ -11,7 +11,7 @@ require("scripts.Schedule")
 require("scripts.Entity")
 
 devmode = true  -- Enables certain conveniences for development
-redraw_cycle_rate = 60
+redraw_cycle_rate = 120
 
 if devmode then
     Profiler = require("lualib.profiler")
