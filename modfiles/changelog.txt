@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 0.18.2
+Date: 07. 04. 2020
   Changes:
     - Changed the shortcut to grab the zone selection tool from ctrl+Z (whoopsie) to alt+Z
   Bugfixes:
