@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.00.00
+Date: 00. 00. 0000
+  Changes:
+    - Changed the shortcut to grab the zone selection tool from ctrl+Z (whoopsie) to alt+Z
+  Bugfixes:
+    - Fixed a crash when certain other mods were active
+
+---------------------------------------------------------------------------------------------------
 Version: 0.18.1
 Date: 05. 04. 2020
   Features:

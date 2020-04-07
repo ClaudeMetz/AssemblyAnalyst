@@ -31,7 +31,7 @@ data:extend({
         -- Keyboard shortcut for the zone-selector
         type = "custom-input",
         name = "aa-select-zone",
-        key_sequence = "CONTROL + Z",
+        key_sequence = "ALT + Z",
         action = "create-blueprint-item",
         item_to_create = "aa-zone-selector",
         consuming = "all",
