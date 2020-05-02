@@ -34,7 +34,7 @@ data:extend({
         key_sequence = "ALT + Z",
         action = "create-blueprint-item",
         item_to_create = "aa-zone-selector",
-        consuming = "all",
+        consuming = "game-only",
         order = "a"
     },
 
