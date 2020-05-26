@@ -3,7 +3,6 @@ Entity = {}
 Entity.__index = Entity
 
 function Entity.init(object)
-    local category = data.type_to_category[object.type]
     local entity = {
         object = object,
         surface = object.surface.name,

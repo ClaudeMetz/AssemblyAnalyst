@@ -52,10 +52,7 @@ end)
 
 script.on_event(defines.events.on_built_entity, handler.entity_built, data.entity_built_filter)
 script.on_event(defines.events.on_robot_built_entity, handler.entity_built, data.entity_built_filter)
-
-script.on_event(defines.events.script_raised_built, function(event)
-    if data.type_to_category[event.entity.type] ~= nil then handler.entity_built(event) end
-end)
+script.on_event(defines.events.script_raised_built, handler.entity_built, data.entity_built_filter)
 
 
 script.on_event(defines.events.on_tick, handler.on_tick)
