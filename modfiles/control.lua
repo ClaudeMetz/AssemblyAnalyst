@@ -14,7 +14,6 @@ require("scripts.Entity")
 redraw_cycle_rate = 120
 
 if devmode then
-    Profiler = require("lualib.profiler")
     require("lualib.llog")
     llog_excludes = {}
 end
