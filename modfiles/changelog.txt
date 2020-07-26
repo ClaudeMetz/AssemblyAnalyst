@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 0.18.5
+Date: 26. 07. 2020
   Features:
     - Added a Russian localisation. Thanks a lot to Dragonling!
 
