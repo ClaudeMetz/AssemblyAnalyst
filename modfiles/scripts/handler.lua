@@ -14,7 +14,7 @@ end
 -- Handles creating a new zone and dealing with overlaps
 function handler.area_selected(player, area, entities)
     util.remove_overlapping_zones{surface = player.surface, area = area}
-    
+
     local new_zone = Zone.init(player.surface, area, entities)
     -- If zone creation fails, abort here
     if new_zone == nil then return end
@@ -32,21 +32,21 @@ end
 
 -- Handles a relevant entity being built, adding it to a zone if applicable
 function handler.entity_built(event)
-    local entity = event.created_entity or event.entity
-    if entity.type == "entity-ghost" then return end
-    if global.settings["exclude-inserters"] and entity.type == "inserter" then return end
+    local new_entity = event.created_entity or event.entity
+    if new_entity.type == "entity-ghost" then return end
+    if global.settings["exclude-inserters"] and new_entity.type == "inserter" then return end
 
     -- Determine actual entity area
     local spec = {
-        surface = entity.surface,
-        area = util.determine_entity_area(entity)
+        surface = new_entity.surface,
+        area = util.determine_entity_area(new_entity)
     }
 
     -- Check if it overlaps with any of the active zones
     for _, zone in pairs(global.zones) do
         if zone:overlaps_with(spec) then
             local entity_map = zone.entity_map
-            entity_map[entity.unit_number] = Entity.init(entity)
+            entity_map[new_entity.unit_number] = Entity.init(new_entity)
 
             -- This might have been a replacement, so revalidate everything
             for unit_number, entity in pairs(entity_map) do
@@ -55,7 +55,7 @@ function handler.entity_built(event)
                     entity_map[unit_number] = nil
                 end
             end
-            
+
             zone:refresh()
             break
         end
@@ -80,7 +80,7 @@ function handler.on_tick()
                 else
                     local statistic_id = entity.status_to_statistic[object.status]
                     local statistics = entity.statistics
-                    statistics[statistic_id] = statistics[statistic_id] + 1                
+                    statistics[statistic_id] = statistics[statistic_id] + 1
                 end
             end
 

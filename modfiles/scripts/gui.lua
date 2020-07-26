@@ -3,7 +3,7 @@ gui = {}
 function gui.create_info_window(player)
     local info_window = player.gui.screen["aa-frame-legend"]
     if info_window == nil then
-        local info_window = player.gui.screen.add{type="frame", name="aa-frame-legend", caption={"aa-gui.assembly_analyst"}, direction="vertical"}
+        info_window = player.gui.screen.add{type="frame", name="aa-frame-legend", caption={"aa-gui.assembly_analyst"}, direction="vertical"}
         local table_legend = info_window.add{type="table", column_count=2}
         table_legend.style.horizontal_spacing = 12
         table_legend.style.column_alignments[1] = "middle-right"
