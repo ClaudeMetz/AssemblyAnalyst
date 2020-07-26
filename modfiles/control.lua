@@ -10,7 +10,7 @@ require("scripts.Zone")
 require("scripts.Schedule")
 require("scripts.Entity")
 
---devmode = true  -- Enables certain conveniences for development
+devmode = true  -- Enables certain conveniences for development
 redraw_cycle_rate = 120
 
 if devmode then
