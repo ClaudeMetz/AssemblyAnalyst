@@ -4,7 +4,6 @@ require("scripts.data")
 require("scripts.handler")
 require("scripts.events")
 require("scripts.gui")
-require("scripts.util")
 
 require("scripts.Zone")
 require("scripts.Schedule")

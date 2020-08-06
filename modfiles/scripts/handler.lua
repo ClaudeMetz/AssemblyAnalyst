@@ -10,6 +10,15 @@ function handler.reload_settings()
     }
 end
 
+local function remove_overlapping_zones(surface, area)
+    local zones = global.zones
+    for index, zone in pairs(zones) do
+        if zone:overlaps_with(surface, area, nil) then
+            zone:destroy_render_objects()
+            zones[index] = nil
+        end
+    end
+end
 
 -- Handles creating a new zone and dealing with overlaps
 function handler.area_selected(player, area, entities)
@@ -17,7 +26,7 @@ function handler.area_selected(player, area, entities)
     -- If zone creation fails, abort here
     if new_zone == nil then return end
 
-    util.remove_overlapping_zones{surface = player.surface, area = area}
+    remove_overlapping_zones(player.surface, area)
 
     new_zone.index = global.zone_running_index
     global.zones[global.zone_running_index] = new_zone
@@ -26,7 +35,7 @@ end
 
 -- Removes all zones that overlap with the given area
 function handler.area_alt_selected(player, area)
-    util.remove_overlapping_zones{surface = player.surface, area = area}
+    remove_overlapping_zones(player.surface, area)
 end
 
 
@@ -36,15 +45,9 @@ function handler.entity_built(event)
     if new_entity.type == "entity-ghost" then return end
     if global.settings["exclude-inserters"] and new_entity.type == "inserter" then return end
 
-    -- Determine actual entity area
-    local spec = {
-        surface = new_entity.surface,
-        area = util.determine_entity_area(new_entity)
-    }
-
     -- Check if it overlaps with any of the active zones
     for _, zone in pairs(global.zones) do
-        if zone:overlaps_with(spec) then
+        if zone:overlaps_with(new_entity.surface, nil, new_entity) then
             local entity_map = zone.entity_map
             entity_map[new_entity.unit_number] = Entity.init(new_entity)
 

@@ -108,6 +108,21 @@ function Zone:redraw_border()
 end
 
 
-function Zone:overlaps_with(spec)
-    return (self.surface.name == spec.surface.name and math2d.bounding_box.collides_with(self.area, spec.area))
+local function determine_entity_area(entity)
+    local collision_box, position = entity.prototype.collision_box, entity.position
+    return {
+        left_top = {
+            x = position.x + collision_box.left_top.x,
+            y = position.y + collision_box.left_top.y
+        },
+        right_bottom = {
+            x = position.x + collision_box.right_bottom.x,
+            y = position.y + collision_box.right_bottom.y
+        }
+    }
+end
+
+function Zone:overlaps_with(surface, area, entity)
+    if area == nil then area = determine_entity_area(entity) end
+    return (self.surface.name == surface.name and math2d.bounding_box.collides_with(self.area, area))
 end
