@@ -11,7 +11,7 @@ function Zone.init(surface, area, entities)
         render_objects = {}
     }
     setmetatable(zone, Zone)
-    
+
     local exclude_inserters = global.settings["exclude-inserters"]
     for _, entity in pairs(entities) do
         if not (exclude_inserters and entity.type == "inserter") then
@@ -21,14 +21,14 @@ function Zone.init(surface, area, entities)
 
     if global.settings["magnetic-selection"] then zone:magnetic_snap() end
     zone:snap_to_grid()
-    
+
     -- Make sure that the zone is 2-dimensional, else cancel the init process
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
-    
-    zone.redraw_schedule = Schedule.init(zone, redraw_cycle_rate)
+
+    zone.redraw_schedule = Schedule.init(zone, REDRAW_CYCLE_RATE)
     zone:redraw_border()
-    
+
     return zone
 end
 
@@ -64,18 +64,18 @@ end
 function Zone:magnetic_snap()
     if table_size(self.entity_map) > 0 then
         local min_x, max_x, min_y, max_y
-        
+
         for _, entity in pairs(self.entity_map) do
             local position = entity.object.position
             local x_position, y_position = position.x, position.y
             local collision_box = entity.object.prototype.collision_box
-            
+
             min_x = math.min((min_x or x_position), (x_position + collision_box.left_top.x))
             max_x = math.max((max_x or x_position), (x_position + collision_box.right_bottom.x))
             min_y = math.min((min_y or y_position), (y_position + collision_box.left_top.y))
             max_y = math.max((max_y or y_position), (y_position + collision_box.right_bottom.y))
         end
-        
+
         local left_top, right_bottom = self.area.left_top, self.area.right_bottom
         left_top.x, right_bottom.x, left_top.y, right_bottom.y = min_x, max_x, min_y, max_y
     end

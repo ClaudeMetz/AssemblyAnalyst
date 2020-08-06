@@ -22,7 +22,7 @@ function Entity.init(object)
         entity_area.left_top.x = entity_area.left_top.x - 0.25
         entity_area.right_bottom.x = entity_area.right_bottom.x + 0.25
     end
-    
+
     local bottom_offset = (entity_area.right_bottom.y - entity_area.left_top.y) / 5
     entity_area.left_top.y = entity_area.right_bottom.y - bottom_offset - 0.2
     entity_area.right_bottom.y = entity_area.right_bottom.y - bottom_offset
@@ -55,7 +55,7 @@ function Entity:redraw_statusbar()
     for _, render_parameter in ipairs(data.render_parameters) do
         local statistic = statistics[render_parameter.name]
         local width = usable_width * (statistic / total_datapoints)
-        
+
         if width ~= 0 then
             table.insert(render_objects, rendering.draw_rectangle{surface=self.surface, left_top=left_top,  right_bottom=right_bottom, filled=true, color=render_parameter.color})
 

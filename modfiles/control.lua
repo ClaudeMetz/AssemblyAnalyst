@@ -10,10 +10,10 @@ require("scripts.Zone")
 require("scripts.Schedule")
 require("scripts.Entity")
 
---devmode = true  -- Enables certain conveniences for development
-redraw_cycle_rate = 120
+DEVMODE = false  -- Enables certain conveniences for development
+REDRAW_CYCLE_RATE = 120
 
-if devmode then
+if DEVMODE then
     require("lualib.llog")
-    llog_excludes = {}
+    LLOG_EXCLUDES = {}
 end
