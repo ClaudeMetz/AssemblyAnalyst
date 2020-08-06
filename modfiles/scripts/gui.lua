@@ -1,7 +1,8 @@
 gui = {}
 
-function gui.create_info_window(player)
+function gui.show_info_window(player)
     local info_window = player.gui.screen["aa-frame-legend"]
+
     if info_window == nil then
         info_window = player.gui.screen.add{type="frame", name="aa-frame-legend",
           caption={"aa-gui.assembly_analyst"}, direction="vertical"}
@@ -19,10 +20,12 @@ function gui.create_info_window(player)
         end
 
         info_window.location = {x = 5, y = player.display_resolution.height - (260 * player.display_scale)}
+    else
+        info_window.visible = true
     end
 end
 
-function gui.destroy_info_window(player)
+function gui.hide_info_window(player)
     local info_window = player.gui.screen["aa-frame-legend"]
-    if info_window ~= nil then info_window.destroy() end
+    if info_window ~= nil then info_window.visible = false end
 end

@@ -48,9 +48,9 @@ script.on_event(defines.events.on_player_cursor_stack_changed, function(event)
     local player = game.get_player(event.player_index)
 
     if player.cursor_stack.valid_for_read and player.cursor_stack.name == "aa-zone-selector" then
-        gui.create_info_window(player)
+        gui.show_info_window(player)
     else
-        gui.destroy_info_window(player)
+        gui.hide_info_window(player)
     end
 end)
 
