@@ -32,9 +32,9 @@ function Zone.init(surface, area, entities)
     return zone
 end
 
-function Zone:destroy()
+function Zone:destroy_render_objects()
     rendering.destroy(self.render_objects.border)
-    for _, entity in pairs(self.entity_map) do entity:destroy() end
+    for _, entity in pairs(self.entity_map) do entity:destroy_render_objects() end
 end
 
 

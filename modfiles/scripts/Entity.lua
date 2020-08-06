@@ -5,7 +5,7 @@ Entity.__index = Entity
 function Entity.init(object)
     local entity = {
         object = object,
-        surface = object.surface.name,
+        surface = object.surface,
         statusbar_area = nil,
         status_to_statistic = nil,
         statistics = data.statistics_template(),
@@ -33,7 +33,7 @@ function Entity.init(object)
     return entity
 end
 
-function Entity:destroy()
+function Entity:destroy_render_objects()
     for _, render_object_id in pairs(self.render_objects) do
         rendering.destroy(render_object_id)
     end

@@ -13,11 +13,11 @@ end
 
 -- Handles creating a new zone and dealing with overlaps
 function handler.area_selected(player, area, entities)
-    util.remove_overlapping_zones{surface = player.surface, area = area}
-
     local new_zone = Zone.init(player.surface, area, entities)
     -- If zone creation fails, abort here
     if new_zone == nil then return end
+
+    util.remove_overlapping_zones{surface = player.surface, area = area}
 
     new_zone.index = global.zone_running_index
     global.zones[global.zone_running_index] = new_zone
@@ -51,7 +51,7 @@ function handler.entity_built(event)
             -- This might have been a replacement, so revalidate everything
             for unit_number, entity in pairs(entity_map) do
                 if not entity.object.valid then
-                    entity:destroy()
+                    entity:destroy_render_objects()
                     entity_map[unit_number] = nil
                 end
             end
@@ -66,7 +66,6 @@ end
 function handler.on_tick()
     for zone_index, zone in pairs(global.zones) do
         if not zone.surface.valid then
-            zone:destroy()
             global.zones[zone_index] = nil
         else
             local entity_removed = false
@@ -74,7 +73,7 @@ function handler.on_tick()
                 local object = entity.object
 
                 if not object.valid then
-                    entity:destroy()
+                    entity:destroy_render_objects()
                     zone.entity_map[unit_number] = nil
                     entity_removed = true
                 else

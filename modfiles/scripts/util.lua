@@ -20,7 +20,7 @@ function util.remove_overlapping_zones(spec)
     local zones = global.zones
     for index, zone in pairs(zones) do
         if zone:overlaps_with(spec) then
-            zone:destroy()
+            zone:destroy_render_objects()
             zones[index] = nil
         end
     end
