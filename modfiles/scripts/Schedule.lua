@@ -28,7 +28,7 @@ function Schedule:reset()
     for _, entity in pairs(entity_map) do
         self.cycles[this_cycle] = self.cycles[this_cycle] or {}
         table.insert(self.cycles[this_cycle], entity)
-        
+
         actions_this_cycle = actions_this_cycle + 1
         if actions_this_cycle == actions_per_cycle then
             this_cycle = this_cycle + 1

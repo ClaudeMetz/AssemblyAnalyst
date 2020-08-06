@@ -98,7 +98,8 @@ function Zone:redraw_border()
     if border ~= nil then rendering.destroy(border) end
 
     local border_color = { r = 0, g = 0.75, b = 1 }
-    self.render_objects.border = rendering.draw_rectangle{surface=self.surface, left_top=self.area.left_top, right_bottom=self.area.right_bottom, filled=false, width=4, color=border_color, draw_on_ground=true}
+    self.render_objects.border = rendering.draw_rectangle{surface=self.surface, left_top=self.area.left_top,
+      right_bottom=self.area.right_bottom, filled=false, width=4, color=border_color, draw_on_ground=true}
 end
 
 

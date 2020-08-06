@@ -57,7 +57,8 @@ function Entity:redraw_statusbar()
         local width = usable_width * (statistic / total_datapoints)
 
         if width ~= 0 then
-            table.insert(render_objects, rendering.draw_rectangle{surface=self.surface, left_top=left_top,  right_bottom=right_bottom, filled=true, color=render_parameter.color})
+            table.insert(render_objects, rendering.draw_rectangle{surface=self.surface, left_top=left_top,
+              right_bottom=right_bottom, filled=true, color=render_parameter.color})
 
             left_top.x = (left_top.x + width)
         end

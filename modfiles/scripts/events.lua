@@ -23,17 +23,15 @@ end)
 
 
 script.on_event(defines.events.on_player_selected_area, function(event)
-    local player = game.get_player(event.player_index)
-
     if event.item == "aa-zone-selector" then
+        local player = game.get_player(event.player_index)
         handler.area_selected(player, event.area, event.entities)
     end
 end)
 
 script.on_event(defines.events.on_player_alt_selected_area, function(event)
-    local player = game.get_player(event.player_index)
-
     if event.item == "aa-zone-selector" then
+        local player = game.get_player(event.player_index)
         handler.area_alt_selected(player, event.area)
     end
 end)
@@ -53,6 +51,5 @@ end)
 script.on_event(defines.events.on_built_entity, handler.entity_built, data.entity_built_filter)
 script.on_event(defines.events.on_robot_built_entity, handler.entity_built, data.entity_built_filter)
 script.on_event(defines.events.script_raised_built, handler.entity_built, data.entity_built_filter)
-
 
 script.on_event(defines.events.on_tick, handler.on_tick)
