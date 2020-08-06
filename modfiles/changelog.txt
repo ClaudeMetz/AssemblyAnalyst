@@ -1,12 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.00.00
 Date: 00. 00. 0000
-  Features:
-    -
   Changes:
+    - Massively improved performance by optimizing the code and rooting out a big logic oversight. I have some other ideas for optimization still, but they'll only bring smaller improvements.
     - Updated the small GUI window to the modern style
-  Bugfixes:
-    -
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.5

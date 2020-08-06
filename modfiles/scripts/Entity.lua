@@ -9,7 +9,7 @@ function Entity.init(object)
         statusbar_area = nil,
         status_to_statistic = nil,
         statistics = data.statistics_template(),
-        render_objects = {}
+        render_objects = {}  -- [statistic_name] = render_object_id
     }
     setmetatable(entity, Entity)
 
@@ -37,30 +37,38 @@ function Entity:destroy()
     for _, render_object_id in pairs(self.render_objects) do
         rendering.destroy(render_object_id)
     end
-    return self.render_objects
 end
 
 
 function Entity:redraw_statusbar()
-    local render_objects = self:destroy()
-
-    local statusbar_area = self.statusbar_area
-    local left_top = {x = statusbar_area.left_top.x, y = statusbar_area.left_top.y}
-    local right_bottom, usable_width = statusbar_area.right_bottom, statusbar_area.usable_width
-
     local statistics, total_datapoints = self.statistics, 0
+    -- We do this accounting here to keep the on_tick size down
     for _, statistic in pairs(statistics) do total_datapoints = total_datapoints + statistic end
     if total_datapoints == 0 then return end
 
+    local statusbar_area = self.statusbar_area
+    local left_top = {x = statusbar_area.left_top.x, y = statusbar_area.left_top.y}
+    local right_bottom = {x = statusbar_area.right_bottom.x, y = statusbar_area.right_bottom.y}
+    local usable_width = statusbar_area.usable_width
+
+    local render_objects, null_offset = self.render_objects, {0, 0}
     for _, render_parameter in ipairs(data.render_parameters) do
-        local statistic = statistics[render_parameter.name]
-        local width = usable_width * (statistic / total_datapoints)
+        local statistic_name = render_parameter.name
+        local statistic = statistics[statistic_name]
 
-        if width ~= 0 then
-            table.insert(render_objects, rendering.draw_rectangle{surface=self.surface, left_top=left_top,
-              right_bottom=right_bottom, filled=true, color=render_parameter.color})
+        if statistic ~= 0 then
+            local draw_to_x = left_top.x + (usable_width * (statistic / total_datapoints))
+            right_bottom.x = draw_to_x
 
-            left_top.x = (left_top.x + width)
+            local render_object_id = render_objects[statistic_name]
+            if render_object_id then
+                rendering.set_corners(render_object_id, left_top, null_offset, right_bottom, null_offset)
+            else
+                render_objects[statistic_name] = rendering.draw_rectangle{surface=self.surface, left_top=left_top,
+                  right_bottom=right_bottom, filled=true, color=render_parameter.color}
+            end
+
+            left_top.x = draw_to_x
         end
     end
 end

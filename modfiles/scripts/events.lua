@@ -12,8 +12,15 @@ script.on_load(function()
     end
 end)
 
-script.on_configuration_changed(function()
+script.on_configuration_changed(function(data)
     handler.reload_settings()
+
+    if data.mod_changes["assemblyanalyst"] then
+        for zone_index, zone in pairs(global.zones) do
+            zone:destroy()
+            global.zones[zone_index] = nil
+        end
+    end
 end)
 
 
