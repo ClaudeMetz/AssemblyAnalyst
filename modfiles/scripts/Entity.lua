@@ -16,19 +16,16 @@ function Entity.init(object)
     local category = data.type_to_category[object.type]
     entity.status_to_statistic = data.status_to_statistic[category]
 
-    local entity_area = util.determine_entity_area(object)
+    local collision_box = object.prototype.collision_box
+    local entity_width = collision_box.right_bottom.x - collision_box.left_top.x
+    local entity_height = collision_box.right_bottom.y - collision_box.left_top.y
 
-    if object.type == "inserter" then  -- Enlarge statusbar for inserters
-        entity_area.left_top.x = entity_area.left_top.x - 0.25
-        entity_area.right_bottom.x = entity_area.right_bottom.x + 0.25
-    end
+    local usable_width = (object.type == "inserter") and 0.8 or (entity_width * 0.8)
 
-    local bottom_offset = (entity_area.right_bottom.y - entity_area.left_top.y) / 5
-    entity_area.left_top.y = entity_area.right_bottom.y - bottom_offset - 0.2
-    entity_area.right_bottom.y = entity_area.right_bottom.y - bottom_offset
-
-    entity_area.usable_width = entity_area.right_bottom.x - entity_area.left_top.x
-    entity.statusbar_area = entity_area
+    entity.statusbar_area = {
+        left_top_offset = {- (usable_width / 2), (entity_height / 4)},
+        usable_width = usable_width
+    }
 
     return entity
 end
@@ -47,28 +44,32 @@ function Entity:redraw_statusbar()
     if total_datapoints == 0 then return end
 
     local statusbar_area = self.statusbar_area
-    local left_top = {x = statusbar_area.left_top.x, y = statusbar_area.left_top.y}
-    local right_bottom = {x = statusbar_area.right_bottom.x, y = statusbar_area.right_bottom.y}
+    local starting_left_top_offset = statusbar_area.left_top_offset
+    local left_top_offset = {starting_left_top_offset[1], starting_left_top_offset[2]}
+    local right_bottom_offset = {left_top_offset[1], left_top_offset[2] + 0.2}
     local usable_width = statusbar_area.usable_width
 
-    local render_objects, null_offset = self.render_objects, {0, 0}
+    local render_objects, entity = self.render_objects, self.object
     for _, render_parameter in ipairs(data.render_parameters) do
         local statistic_name = render_parameter.name
         local statistic = statistics[statistic_name]
 
         if statistic ~= 0 then
-            local draw_to_x = left_top.x + (usable_width * (statistic / total_datapoints))
-            right_bottom.x = draw_to_x
+            local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
+            right_bottom_offset[1] = new_horizontal_offset
 
             local render_object_id = render_objects[statistic_name]
             if render_object_id then
-                rendering.set_corners(render_object_id, left_top, null_offset, right_bottom, null_offset)
+                rendering.set_corners(render_object_id, entity, left_top_offset, entity, right_bottom_offset)
             else
-                render_objects[statistic_name] = rendering.draw_rectangle{surface=self.surface, left_top=left_top,
-                  right_bottom=right_bottom, filled=true, color=render_parameter.color}
+                render_objects[statistic_name] = rendering.draw_rectangle{
+                    left_top=self.object, left_top_offset=left_top_offset,
+                    right_bottom=self.object, right_bottom_offset=right_bottom_offset,
+                    surface=self.surface, filled=true, color=render_parameter.color
+                }
             end
 
-            left_top.x = draw_to_x
+            left_top_offset[1] = new_horizontal_offset
         end
     end
 end

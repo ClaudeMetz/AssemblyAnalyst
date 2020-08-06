@@ -1,12 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.00.00
 Date: 00. 00. 0000
-  Features:
-    -
   Changes:
     - Made it so the info window remembers the spot you dragged it to
-  Bugfixes:
-    -
+    - Improved the code some more, although there won't be a large difference this time
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.6

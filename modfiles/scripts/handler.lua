@@ -51,8 +51,8 @@ function handler.entity_built(event)
             -- This might have been a replacement, so revalidate everything
             for unit_number, entity in pairs(entity_map) do
                 if not entity.object.valid then
-                    entity:destroy_render_objects()
                     entity_map[unit_number] = nil
+                    break  -- only one entity could have been replaced
                 end
             end
 
@@ -73,7 +73,6 @@ function handler.on_tick()
                 local object = entity.object
 
                 if not object.valid then
-                    entity:destroy_render_objects()
                     zone.entity_map[unit_number] = nil
                     entity_removed = true
                 else
