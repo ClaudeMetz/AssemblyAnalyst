@@ -9,7 +9,7 @@ require("scripts.Zone")
 require("scripts.Schedule")
 require("scripts.Entity")
 
-DEVMODE = false  -- Enables certain conveniences for development
+DEVMODE = true  -- Enables certain conveniences for development
 REDRAW_CYCLE_RATE = 120
 
 if DEVMODE then
