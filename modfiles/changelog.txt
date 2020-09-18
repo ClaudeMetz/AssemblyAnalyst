@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 1.0.2
+Date: 18. 09. 2020
   Bugfixes:
     - Fixed that Miniloaders were erroneously picked up on as inserters, leading to crashes
 
