@@ -53,11 +53,9 @@ function handler.entity_built(event)
             entity_map[new_entity.unit_number] = Entity.init(new_entity)
 
             -- This might have been a replacement, so revalidate everything
+            -- Even if it wasn't, revalidate in case the tick is paused
             for unit_number, entity in pairs(entity_map) do
-                if not entity.object.valid then
-                    entity_map[unit_number] = nil
-                    break  -- only one entity could have been replaced
-                end
+                if not entity.object.valid then entity_map[unit_number] = nil end
             end
 
             zone:refresh()
