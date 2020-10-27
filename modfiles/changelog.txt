@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 1.0.4
+Date: 27. 10. 2020
   Features:
     - Added mod settings that configure the colors of the individual entity status types
 
