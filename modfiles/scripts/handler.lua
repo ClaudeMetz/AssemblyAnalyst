@@ -1,6 +1,13 @@
 handler = {}
 
--- Reloads the current settings to the global table
+local default_status_colors = {
+    working = "#008700",
+    output_overload = "#66e000",
+    input_shortage = "#ffa500",
+    insufficient_power = "#cc0000",
+    disabled = "#cc00cc"
+}
+
 function handler.reload_settings()
     global.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
@@ -8,7 +15,20 @@ function handler.reload_settings()
         ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value,
         ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value
     }
+
+    global.settings.colors = {}
+    -- This 'abuses' the inherent order that Factorio lua pairs brings
+    for status_type, _ in pairs(DATA.statistics_template()) do
+        local hex_color = settings.global["aa-status-color-" .. status_type].value
+
+        if not string.find(hex_color, "^#?[0-9a-f]+$") then
+            hex_color = default_status_colors[status_type]
+        end
+
+        global.settings.colors[status_type] = hex_to_rgb(hex_color)
+    end
 end
+
 
 local function remove_overlapping_zones(surface, area)
     local zones = global.zones

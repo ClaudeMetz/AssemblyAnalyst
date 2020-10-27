@@ -125,5 +125,5 @@ end
 
 function Zone:overlaps_with(surface, area, entity)
     if area == nil then area = determine_entity_area(entity) end
-    return (self.surface.name == surface.name and math2d.bounding_box.collides_with(self.area, area))
+    return (self.surface.name == surface.name and collides_with(self.area, area))
 end

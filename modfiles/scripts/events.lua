@@ -14,6 +14,7 @@ end)
 
 script.on_configuration_changed(function(data)
     handler.reload_settings()
+    gui.rebuild_all()
 
     if data.mod_changes["assemblyanalyst"] then
         for zone_index, zone in pairs(global.zones) do
@@ -25,7 +26,10 @@ end)
 
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
-    if event.setting_type == "runtime-global" then handler.reload_settings() end
+    if event.setting_type == "runtime-global" then
+        handler.reload_settings()
+        gui.rebuild_all()
+    end
 end)
 
 

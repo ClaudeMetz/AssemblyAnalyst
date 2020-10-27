@@ -1,4 +1,5 @@
-math2d = require("math2d")  -- base game lualib
+collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
+hex_to_rgb = require("util").color  -- base game lualib
 
 require("scripts.handler")
 require("scripts.events")
@@ -9,11 +10,10 @@ require("scripts.Schedule")
 require("scripts.Entity")
 
 DEVMODE = true  -- Enables certain conveniences for development
-REDRAW_CYCLE_RATE = 120
+if DEVMODE then LLOG_EXCLUDES = {} end
 
-if DEVMODE then
-    LLOG_EXCLUDES = {}
-end
+REDRAW_CYCLE_RATE = 120  -- redraws entity status every 2 seconds
+
 
 -- ** DATA **
 DATA = { status_to_statistic = {} }
@@ -26,7 +26,6 @@ DATA.type_to_category = {
     ["mining-drill"] = "mining_drill",
     ["inserter"] = "inserter"
 }
-
 
 DATA.status_to_statistic.assembler = {
     [defines.entity_status.working] = "working",
@@ -79,7 +78,6 @@ DATA.status_to_statistic.inserter = {
     [defines.entity_status.marked_for_deconstruction] = "disabled"
 }
 
-
 function DATA.statistics_template()
     return {
         working = 0,
@@ -89,30 +87,6 @@ function DATA.statistics_template()
         disabled = 0
     }
 end
-
--- Defines order and color of the status-categories
-DATA.render_parameters = {
-    [1] = {
-        name = "working",
-        color = {0, 135, 0}
-    },
-    [2] = {
-        name = "output_overload",
-        color = {102, 224, 0}
-    },
-    [3] = {
-        name = "input_shortage",
-        color = {255, 165, 0}
-    },
-    [4] = {
-        name = "insufficient_power",
-        color = {204, 0, 0}
-    },
-    [5] = {
-        name = "disabled",
-        color = {204, 0, 204}
-    }
-}
 
 
 -- ** LLOG **

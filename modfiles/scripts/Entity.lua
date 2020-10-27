@@ -50,8 +50,10 @@ function Entity:redraw_statusbar()
     local usable_width = statusbar_area.usable_width
 
     local render_objects, entity = self.render_objects, self.object
-    for _, render_parameter in ipairs(DATA.render_parameters) do
-        local statistic_name = render_parameter.name
+    local colors = global.settings.colors
+
+    -- This 'abuses' the inherent order that Factorio lua pairs brings
+    for statistic_name, _ in pairs(statistics) do
         local statistic = statistics[statistic_name]
 
         if statistic ~= 0 then
@@ -59,13 +61,16 @@ function Entity:redraw_statusbar()
             right_bottom_offset[1] = new_horizontal_offset
 
             local render_object_id = render_objects[statistic_name]
+            local color = colors[statistic_name]
+
             if render_object_id then
                 rendering.set_corners(render_object_id, entity, left_top_offset, entity, right_bottom_offset)
+                rendering.set_color(render_object_id, color)
             else
                 render_objects[statistic_name] = rendering.draw_rectangle{
                     left_top=self.object, left_top_offset=left_top_offset,
                     right_bottom=self.object, right_bottom_offset=right_bottom_offset,
-                    surface=self.surface, filled=true, color=render_parameter.color
+                    surface=self.surface, filled=true, color=color
                 }
             end
 
