@@ -8,13 +8,13 @@ function Entity.init(object)
         surface = object.surface,
         statusbar_area = nil,
         status_to_statistic = nil,
-        statistics = data.statistics_template(),
+        statistics = DATA.statistics_template(),
         render_objects = {}  -- [statistic_name] = render_object_id
     }
     setmetatable(entity, Entity)
 
-    local category = data.type_to_category[object.type]
-    entity.status_to_statistic = data.status_to_statistic[category]
+    local category = DATA.type_to_category[object.type]
+    entity.status_to_statistic = DATA.status_to_statistic[category]
 
     local collision_box = object.prototype.collision_box
     local entity_width = collision_box.right_bottom.x - collision_box.left_top.x
@@ -50,7 +50,7 @@ function Entity:redraw_statusbar()
     local usable_width = statusbar_area.usable_width
 
     local render_objects, entity = self.render_objects, self.object
-    for _, render_parameter in ipairs(data.render_parameters) do
+    for _, render_parameter in ipairs(DATA.render_parameters) do
         local statistic_name = render_parameter.name
         local statistic = statistics[statistic_name]
 

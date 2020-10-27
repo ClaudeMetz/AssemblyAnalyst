@@ -55,8 +55,16 @@ script.on_event(defines.events.on_player_cursor_stack_changed, function(event)
 end)
 
 
-script.on_event(defines.events.on_built_entity, handler.entity_built, data.entity_built_filter)
-script.on_event(defines.events.on_robot_built_entity, handler.entity_built, data.entity_built_filter)
-script.on_event(defines.events.script_raised_built, handler.entity_built, data.entity_built_filter)
+local entity_built_filter = {
+    {filter="crafting-machine"},
+    {filter="type", type="lab"},
+    {filter="type", type="mining-drill"},
+    {filter="type", type="inserter"}
+}
+
+script.on_event(defines.events.on_built_entity, handler.entity_built, entity_built_filter)
+script.on_event(defines.events.on_robot_built_entity, handler.entity_built, entity_built_filter)
+script.on_event(defines.events.script_raised_built, handler.entity_built, entity_built_filter)
+
 
 script.on_event(defines.events.on_tick, handler.on_tick)

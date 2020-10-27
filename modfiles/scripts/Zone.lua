@@ -55,7 +55,7 @@ end
 function Zone:reset_entity_data()
     if global.settings["reset-data-on-change"] then
         for _, entity in pairs(self.entity_map) do
-            entity.statistics = data.statistics_template()
+            entity.statistics = DATA.statistics_template()
         end
     end
 end

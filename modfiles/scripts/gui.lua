@@ -12,7 +12,7 @@ function gui.show_info_window(player)
         table_legend.style.horizontal_spacing = 12
         table_legend.style.column_alignments[1] = "middle-right"
 
-        for _, render_parameter in ipairs(data.render_parameters) do
+        for _, render_parameter in ipairs(DATA.render_parameters) do
             local name, color = render_parameter.name, render_parameter.color
             table_legend.add{type="label", caption={"aa-gui.legend_color", color[1], color[2], color[3],
               {"aa-gui." .. name .. "_color_name"}}}
