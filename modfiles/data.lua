@@ -18,7 +18,7 @@ data:extend({
         selection_cursor_box_type = "electricity",
         entity_filter_mode = "whitelist",
         entity_type_filters = zone_selector_entity_filters,
-        
+
         alt_selection_color = { r = 0.9, g = 0.15, b = 0 },
         -- The alt mode is set to nothing for now, so the user doesn't get the impression that he can exclude individual entities from the selection
         alt_selection_mode = {"nothing"},
@@ -32,8 +32,8 @@ data:extend({
         type = "custom-input",
         name = "aa-select-zone",
         key_sequence = "ALT + Z",
-        action = "create-blueprint-item",
-        item_to_create = "aa-zone-selector",
+        action = "spawn-item",
+        item_to_spawn = "aa-zone-selector",
         consuming = "game-only",
         order = "a"
     },
@@ -42,8 +42,8 @@ data:extend({
         -- Quickbar shortcut for the zone-selector
         type = "shortcut",
         name = "aa-select-zone",
-        action = "create-blueprint-item",
-        item_to_create = "aa-zone-selector",
+        action = "spawn-item",
+        item_to_spawn = "aa-zone-selector",
         associated_control_input = "aa-select-zone",
         order = "aa-a[select-zone]",
         icon =
