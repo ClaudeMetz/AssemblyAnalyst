@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 1.1.1
+Date: 25. 11. 2020
   Changes:
     - Update for Factorio 1.1, which actually changed quite a few things about the entity status stuff, which I use for my mod. They might be a bit more accurate from now on as a result.
 
