@@ -7,7 +7,7 @@ data:extend({
         name = "aa-zone-selector",
         stack_size = 1,
         show_in_library = false,
-        flags = {"hidden", "not-stackable", "only-in-cursor"},
+        flags = {"hidden", "spawnable", "not-stackable", "only-in-cursor"},
         subgroup = "other",
         order = "aa-a[zone-selector]",
         icon = "__assemblyanalyst__/graphics/tool-zone-selector.png",
