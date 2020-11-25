@@ -29,17 +29,19 @@ DATA.type_to_category = {
 
 DATA.status_to_statistic.assembler = {
     [defines.entity_status.working] = "working",
-    [defines.entity_status.fluid_production_overload] = "output_overload",
-    [defines.entity_status.item_production_overload] = "output_overload",
+    [defines.entity_status.preparing_rocket_for_launch] = "working",
+    [defines.entity_status.launching_rocket] = "working",
+    [defines.entity_status.full_output] = "output_overload",
+    [defines.entity_status.no_ingredients] = "input_shortage",
     [defines.entity_status.fluid_ingredient_shortage] = "input_shortage",
     [defines.entity_status.item_ingredient_shortage] = "input_shortage",
     [defines.entity_status.no_power] = "insufficient_power",
     [defines.entity_status.no_fuel] = "insufficient_power",
     [defines.entity_status.low_power] = "insufficient_power",
     [defines.entity_status.no_recipe] = "disabled",
+    [defines.entity_status.waiting_to_launch_rocket] = "disabled",
     [defines.entity_status.disabled_by_script] = "disabled",
-    [defines.entity_status.marked_for_deconstruction] = "disabled",
-    [defines.entity_status.waiting_to_launch_rocket] = "disabled"
+    [defines.entity_status.marked_for_deconstruction] = "disabled"
 }
 
 DATA.status_to_statistic.lab = {
