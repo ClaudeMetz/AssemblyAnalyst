@@ -51,11 +51,14 @@ function handler.area_selected(player, area, entities)
     new_zone.index = global.zone_running_index
     global.zones[global.zone_running_index] = new_zone
     global.zone_running_index = global.zone_running_index + 1
+
+    gui.refresh_all()
 end
 
 -- Removes all zones that overlap with the given area
 function handler.area_alt_selected(player, area)
     remove_overlapping_zones(player.surface, area)
+    gui.refresh_all()
 end
 
 

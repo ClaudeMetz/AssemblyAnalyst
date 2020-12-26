@@ -7,6 +7,7 @@ function Zone.init(surface, area, entities)
         surface = surface,
         area = area,
         entity_map = {},
+        entity_count = 0,
         redraw_schedule = nil,
         render_objects = {}
     }
@@ -17,6 +18,7 @@ function Zone.init(surface, area, entities)
         if not string.find(entity.name, "miniloader%-inserter$")
           and not (exclude_inserters and entity.type == "inserter") then
             zone.entity_map[entity.unit_number] = Entity.init(entity)
+            zone.entity_count = zone.entity_count + 1
         end
     end
 
@@ -49,6 +51,9 @@ function Zone:refresh()
 
     self.redraw_schedule:reset()
     self:reset_entity_data()
+
+    self.entity_count = table_size(self.entity_map)  -- this is slow, but easy
+    gui.refresh_all()
 end
 
 -- Resets any entity data that has been collected
