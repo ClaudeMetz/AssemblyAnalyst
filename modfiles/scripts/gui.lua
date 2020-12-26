@@ -36,7 +36,8 @@ function gui.show_info_window(player)
         gui.refresh_info_window(player, nil)  -- hereafter done on demand when the count changes
 
         local window_height, tool_window_height = 232, 92  -- easier to just hardcode it
-        info_window.location = {x = 5, y = player.display_resolution.height - window_height - tool_window_height - 10}
+        local offset = (window_height + tool_window_height + 10) * player.display_scale
+        info_window.location = {x = 5, y = (player.display_resolution.height - offset)}
     end
 
 end
