@@ -19,7 +19,8 @@ function gui.show_info_window(player)
             table_legend.add{type="label", caption={"aa-gui." .. status_type .. "_name"}}
         end
 
-        info_window.location = {x = 5, y = player.display_resolution.height - (260 * player.display_scale)}
+        local window_height, tool_window_height = 192, 92  -- easier to just hardcode it
+        info_window.location = {x = 5, y = player.display_resolution.height - window_height - tool_window_height - 10}
     else
         info_window.visible = true
     end
