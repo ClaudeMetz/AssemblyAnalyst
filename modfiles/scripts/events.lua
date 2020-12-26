@@ -1,10 +1,18 @@
 script.on_init(function()
+    -- Disable annoying stuff for development
+    local freeplay = remote.interfaces["freeplay"]
+    if DEVMODE and freeplay then
+        if freeplay["set_skip_intro"] then remote.call("freeplay", "set_skip_intro", true) end
+        if freeplay["set_disable_crashsite"] then remote.call("freeplay", "set_disable_crashsite", true) end
+    end
+
     global.zones = {}
     global.zone_running_index = 1
     handler.reload_settings()
 end)
 
 script.on_load(function()
+    -- Recreate the necessary metatables
     for _, zone in pairs(global.zones) do
         setmetatable(zone, Zone)
         setmetatable(zone.redraw_schedule, Schedule)
