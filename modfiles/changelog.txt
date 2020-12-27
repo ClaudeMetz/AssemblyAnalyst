@@ -2,9 +2,8 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
+    - Added an in-game 'Tips and tricks'-style tutorial
     - Added the amount of entities that are currently being tracked to the info window
-  Changes:
-    -
   Bugfixes:
     - Fixed that the window indicating the meaning of the different colors would overlap with the game's tool-UI
 
