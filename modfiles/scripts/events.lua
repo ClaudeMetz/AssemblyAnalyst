@@ -22,7 +22,6 @@ end)
 
 script.on_configuration_changed(function(data)
     handler.reload_settings()
-    gui.rebuild_all()
 
     if data.mod_changes["assemblyanalyst"] then
         for zone_index, zone in pairs(global.zones) do
@@ -30,6 +29,8 @@ script.on_configuration_changed(function(data)
             global.zones[zone_index] = nil
         end
     end
+
+    gui.rebuild_all()
 end)
 
 
