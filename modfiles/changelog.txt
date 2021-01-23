@@ -2,11 +2,11 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    - 
+    -
   Changes:
-    - 
+    -
   Bugfixes:
-    - 
+    - Bumped the version of the base game that's required to 1.1.14 because the mod uses functionality that was only added at that point; I forgot to do this with the previous release, sorry about that
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.5
