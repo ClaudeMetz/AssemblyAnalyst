@@ -1,4 +1,4 @@
-handler = {}
+handlers = {}
 
 local default_status_colors = {
     working = "#008700",
@@ -8,7 +8,7 @@ local default_status_colors = {
     disabled = "#cc00cc"
 }
 
-function handler.reload_settings()
+function handlers.reload_settings()
     global.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
         ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
@@ -41,7 +41,7 @@ local function remove_overlapping_zones(surface, area)
 end
 
 -- Handles creating a new zone and dealing with overlaps
-function handler.area_selected(player, area, entities)
+function handlers.area_selected(player, area, entities)
     local new_zone = Zone.init(player.surface, area, entities)
     -- If zone creation fails, abort here
     if new_zone == nil then return end
@@ -56,14 +56,14 @@ function handler.area_selected(player, area, entities)
 end
 
 -- Removes all zones that overlap with the given area
-function handler.area_alt_selected(player, area)
+function handlers.area_alt_selected(player, area)
     remove_overlapping_zones(player.surface, area)
     gui.refresh_all()
 end
 
 
 -- Handles a relevant entity being built, adding it to a zone if applicable
-function handler.entity_built(event)
+function handlers.entity_built(event)
     local new_entity = event.created_entity or event.entity
     if new_entity.type == "entity-ghost" then return end
     if global.settings["exclude-inserters"] and new_entity.type == "inserter" then return end
@@ -88,7 +88,7 @@ function handler.entity_built(event)
 end
 
 -- Collects statistics and redraws certain statusbars
-function handler.on_tick()
+function handlers.on_tick()
     for zone_index, zone in pairs(global.zones) do
         if not zone.surface.valid then
             global.zones[zone_index] = nil

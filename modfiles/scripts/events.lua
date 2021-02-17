@@ -8,7 +8,7 @@ script.on_init(function()
 
     global.zones = {}
     global.zone_running_index = 1
-    handler.reload_settings()
+    handlers.reload_settings()
 end)
 
 script.on_load(function()
@@ -21,7 +21,7 @@ script.on_load(function()
 end)
 
 script.on_configuration_changed(function(data)
-    handler.reload_settings()
+    handlers.reload_settings()
 
     if data.mod_changes["assemblyanalyst"] then
         for zone_index, zone in pairs(global.zones) do
@@ -40,7 +40,7 @@ end)
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     if event.setting_type == "runtime-global" then
-        handler.reload_settings()
+        handlers.reload_settings()
         gui.rebuild_all()
     end
 end)
@@ -49,14 +49,14 @@ end)
 script.on_event(defines.events.on_player_selected_area, function(event)
     if event.item == "aa-zone-selector" then
         local player = game.get_player(event.player_index)
-        handler.area_selected(player, event.area, event.entities)
+        handlers.area_selected(player, event.area, event.entities)
     end
 end)
 
 script.on_event(defines.events.on_player_alt_selected_area, function(event)
     if event.item == "aa-zone-selector" then
         local player = game.get_player(event.player_index)
-        handler.area_alt_selected(player, event.area)
+        handlers.area_alt_selected(player, event.area)
     end
 end)
 
@@ -79,9 +79,9 @@ local entity_built_filter = {
     {filter="type", type="inserter"}
 }
 
-script.on_event(defines.events.on_built_entity, handler.entity_built, entity_built_filter)
-script.on_event(defines.events.on_robot_built_entity, handler.entity_built, entity_built_filter)
-script.on_event(defines.events.script_raised_built, handler.entity_built, entity_built_filter)
+script.on_event(defines.events.on_built_entity, handlers.entity_built, entity_built_filter)
+script.on_event(defines.events.on_robot_built_entity, handlers.entity_built, entity_built_filter)
+script.on_event(defines.events.script_raised_built, handlers.entity_built, entity_built_filter)
 
 
-script.on_event(defines.events.on_tick, handler.on_tick)
+script.on_event(defines.events.on_tick, handlers.on_tick)
