@@ -65,9 +65,8 @@ end
 -- Handles a relevant entity being built, adding it to a zone if applicable
 function handlers.entity_built(event)
     local new_entity = event.created_entity or event.entity
-    if new_entity.type == "entity-ghost" then return end
-    if global.settings["exclude-inserters"] and new_entity.type == "inserter" then return end
-    if string.find(new_entity.name, "miniloader%-inserter$") then return end
+
+    if new_entity.type == "entity-ghost" or not Zone.allow_analysis(new_entity) then return end
 
     -- Check if it overlaps with any of the active zones
     for _, zone in pairs(global.zones) do

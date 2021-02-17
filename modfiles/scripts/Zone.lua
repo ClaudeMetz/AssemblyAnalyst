@@ -2,6 +2,12 @@
 Zone = {}
 Zone.__index = Zone
 
+
+function Zone.allow_analysis(entity)
+    return (not string.find(entity.name, "miniloader%-inserter$") and
+            not (global.settings["exclude-inserters"] and entity.type == "inserter"))
+end
+
 function Zone.init(surface, area, entities)
     local zone = {
         surface = surface,
@@ -13,10 +19,9 @@ function Zone.init(surface, area, entities)
     }
     setmetatable(zone, Zone)
 
-    local exclude_inserters = global.settings["exclude-inserters"]
+
     for _, entity in pairs(entities) do
-        if not string.find(entity.name, "miniloader%-inserter$")
-          and not (exclude_inserters and entity.type == "inserter") then
+        if Zone.allow_analysis(entity) then
             zone.entity_map[entity.unit_number] = Entity.init(entity)
             zone.entity_count = zone.entity_count + 1
         end
@@ -34,6 +39,7 @@ function Zone.init(surface, area, entities)
 
     return zone
 end
+
 
 function Zone:refresh_status_mapping()
     for _, entity in pairs(self.entity_map) do
