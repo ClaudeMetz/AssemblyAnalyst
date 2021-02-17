@@ -2,12 +2,13 @@
 Schedule = {}
 Schedule.__index = Schedule
 
-function Schedule.init(zone, cycle_rate)
+function Schedule.init(zone, cycle_rate, handler_name)
     local schedule = {
         zone = zone,
         cycles = nil,
         cycle_rate = cycle_rate,
-        current_cycle = nil
+        current_cycle = nil,
+        handler_name = handler_name
     }
     setmetatable(schedule, Schedule)
 
@@ -41,9 +42,8 @@ end
 function Schedule:tick()
     local cycle = self.cycles[self.current_cycle]
 
-    if cycle ~= nil then  -- there might not be any work to do
-        for _, entity in pairs(cycle) do entity:redraw_statusbar() end
-    end
+    -- There might not be any work to do this cycle
+    if cycle ~= nil then Zone[self.handler_name](cycle) end
 
     if self.current_cycle == self.cycle_rate then self.current_cycle = 1
     else self.current_cycle = self.current_cycle + 1 end

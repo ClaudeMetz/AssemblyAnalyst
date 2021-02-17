@@ -34,7 +34,7 @@ function Zone.init(surface, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
 
-    zone.redraw_schedule = Schedule.init(zone, REDRAW_CYCLE_RATE)
+    zone.redraw_schedule = Schedule.init(zone, REDRAW_CYCLE_RATE, "redraw_entities")
     zone:redraw_border()
 
     return zone
@@ -143,4 +143,10 @@ end
 function Zone:overlaps_with(surface, area, entity)
     if area == nil then area = determine_entity_area(entity) end
     return (self.surface.name == surface.name and collides_with(self.area, area))
+end
+
+
+-- Do the work of redrawing the entities in the given cycle
+function Zone.redraw_entities(cycle)
+    for _, entity in pairs(cycle) do entity:redraw_statusbar() end
 end
