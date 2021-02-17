@@ -89,26 +89,24 @@ end
 
 -- Collects statistics and redraws certain statusbars
 function handlers.on_tick()
-    for zone_index, zone in pairs(global.zones) do
-        if not zone.surface.valid then
-            global.zones[zone_index] = nil
-        else
-            local entity_removed = false
-            for unit_number, entity in pairs(zone.entity_map) do
-                local object = entity.object
+    -- The surface will always be valid because invalid ones are immediately removed
+    for _, zone in pairs(global.zones) do
+        local entity_removed = false
 
-                if not object.valid then
-                    zone.entity_map[unit_number] = nil
-                    entity_removed = true
-                else
-                    local statistic_id = entity.status_to_statistic[object.status]
-                    local statistics = entity.statistics
-                    statistics[statistic_id] = statistics[statistic_id] + 1
-                end
+        for unit_number, entity in pairs(zone.entity_map) do
+            local object = entity.object
+
+            if not object.valid then
+                zone.entity_map[unit_number] = nil
+                entity_removed = true
+            else
+                local statistic_id = entity.status_to_statistic[object.status]
+                local statistics = entity.statistics
+                statistics[statistic_id] = statistics[statistic_id] + 1
             end
-
-            if entity_removed then zone:refresh() end
-            zone.redraw_schedule:tick()
         end
+
+        if entity_removed then zone:refresh() end
+        zone.redraw_schedule:tick()
     end
 end

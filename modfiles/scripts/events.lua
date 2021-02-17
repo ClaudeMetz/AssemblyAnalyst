@@ -61,6 +61,13 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 end)
 
 
+script.on_event(defines.events.on_surface_deleted, function(_)
+    for zone_index, zone in pairs(global.zones) do
+        if not zone.surface.valid then global.zones[zone_index] = nil end
+    end
+end)
+
+
 script.on_event(defines.events.on_player_cursor_stack_changed, function(event)
     local player = game.get_player(event.player_index)
 
