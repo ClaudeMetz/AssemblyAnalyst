@@ -30,6 +30,10 @@ script.on_configuration_changed(function(data)
         end
     end
 
+    for _, zone in pairs(global.zones) do
+        zone:refresh_status_mapping()
+    end
+
     gui.rebuild_all()
 end)
 

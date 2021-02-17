@@ -13,8 +13,7 @@ function Entity.init(object)
     }
     setmetatable(entity, Entity)
 
-    local category = DATA.type_to_category[object.type]
-    entity.status_to_statistic = DATA.status_to_statistic[category]
+    entity:refresh_status_mapping()
 
     local collision_box = object.prototype.collision_box
     local entity_width = collision_box.right_bottom.x - collision_box.left_top.x
@@ -28,6 +27,11 @@ function Entity.init(object)
     }
 
     return entity
+end
+
+function Entity:refresh_status_mapping()
+    local category = DATA.type_to_category[self.object.type]
+    self.status_to_statistic = DATA.status_to_statistic[category]
 end
 
 function Entity:destroy_render_objects()
