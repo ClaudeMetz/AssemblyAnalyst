@@ -1,7 +1,7 @@
 collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
 hex_to_rgb = require("util").color  -- base game lualib
 
-require("scripts.handler")
+require("scripts.handlers")
 require("scripts.events")
 require("scripts.gui")
 
