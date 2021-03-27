@@ -80,6 +80,7 @@ DATA.status_to_statistic.inserter = {
     [defines.entity_status.working] = "working",
     [defines.entity_status.waiting_for_source_items] = "input_shortage",
     [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
+    [defines.entity_status.waiting_for_train] = "output_overload",
     [defines.entity_status.waiting_for_target_to_be_built] = "output_overload",
     [defines.entity_status.full_output] = "output_overload",  -- burner byproduct full
     [defines.entity_status.no_power] = "insufficient_power",
