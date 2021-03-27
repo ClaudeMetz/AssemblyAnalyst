@@ -1,10 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
-  Features:
-    -
-  Changes:
-    -
+Version: 1.1.8
+Date: 27. 03. 2021
   Bugfixes:
     - Fixed a crash when selecting inserters waiting to insert into a train
 
