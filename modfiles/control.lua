@@ -139,8 +139,8 @@ local function _llog(table)
             local comma = (first_element) and "" or ","
             first_element = false
 
-            -- Print string and continuous numerical keys only
-            local key = (type(name) == "number" and preceding_name+1 ~= name) and "" or (name .. " = ")
+            -- Print string and discontinuous numerical keys only
+            local key = (type(name) == "number" and preceding_name+1 == name) and "" or (name .. " = ")
             preceding_name = name
 
             out = out .. comma .. "\n" .. super_spacing .. key .. element
