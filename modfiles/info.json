@@ -1,6 +1,6 @@
 {
     "name": "assemblyanalyst",
-    "version": "1.1.8",
+    "version": "1.1.9",
     "title": "Assembly Analyst",
     "author": "Therenas",
     "description": "This mod allows you to select certain areas of your factory for analysis, revealing what your machines are spending their time on. This will help you pin-point bottlenecks in your designs more easily.",
