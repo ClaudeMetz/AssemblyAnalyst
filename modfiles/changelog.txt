@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.00.00
-Date: 00. 00. 0000
+Version: 1.1.10
+Date: 25. 08. 2021
   Features:
     - Added updated Russian localisation (Thanks Astorin!)
 
