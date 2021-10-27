@@ -2,11 +2,11 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    - 
+    -
   Changes:
-    - 
+    - Changed the mod to be compiled using the Phobos Lua compiler. This should not change anything at the surface, but will lead to potential performance improvements in the future. Consider it a test for now.
   Bugfixes:
-    - 
+    -
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.10
