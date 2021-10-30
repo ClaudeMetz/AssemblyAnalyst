@@ -100,6 +100,7 @@ function handlers.on_tick()
                 entity_removed = true
             else
                 local statistic_id = entity.status_to_statistic[object.status]
+                assert(nil, "unhandled entity status '" .. object.status .. "' for entity type '" .. object.type .. "'")
                 local statistics = entity.statistics
                 statistics[statistic_id] = statistics[statistic_id] + 1
             end
