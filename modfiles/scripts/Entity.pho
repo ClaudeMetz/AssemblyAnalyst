@@ -30,6 +30,7 @@ function Entity.init(object)
 end
 
 function Entity:refresh_status_mapping()
+    if not self.object.valid then return end
     local category = DATA.type_to_category[self.object.type]
     self.status_to_statistic = DATA.status_to_statistic[category]
 end
