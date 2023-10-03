@@ -9,8 +9,8 @@ require("scripts.Zone")
 require("scripts.Schedule")
 require("scripts.Entity")
 
-DEVMODE = false  -- Enables certain conveniences for development
-if DEVMODE then LLOG_EXCLUDES = {} end
+DEV_ACTIVE = false  -- Enables certain conveniences for development
+if DEV_ACTIVE then LLOG_EXCLUDES = {} end
 
 REDRAW_CYCLE_RATE = 120  -- redraws entity status every 2 seconds
 
