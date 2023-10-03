@@ -92,3 +92,12 @@ script.on_event(defines.events.script_raised_built, handlers.entity_built, entit
 
 
 script.on_event(defines.events.on_tick, handlers.on_tick)
+
+
+commands.add_command("aa-clear-zones", {"command-help.aa_clear_zones"}, function()
+    for zone_index, zone in pairs(global.zones) do
+        zone:destroy_render_objects()
+        global.zones[zone_index] = nil
+    end
+    gui.rebuild_all()
+end)

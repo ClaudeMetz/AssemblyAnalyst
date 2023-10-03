@@ -2,7 +2,7 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    -
+    - Added '/aa-clear-zones' console command to remove all current zones
   Changes:
     -
   Bugfixes:
