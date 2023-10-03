@@ -2,9 +2,17 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    - Added '/aa-clear-zones' console command to remove all current zones
+    - 
   Changes:
-    -
+    - 
+  Bugfixes:
+    - 
+
+---------------------------------------------------------------------------------------------------
+Version: 1.1.12
+Date: 03. 10. 2023
+  Features:
+    - Added '/aa-clear-zones' console command to remove all current zones
   Bugfixes:
     - Fixed a crash during migration when a selected entity became invalid
 
