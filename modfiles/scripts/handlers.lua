@@ -13,7 +13,8 @@ function handlers.reload_settings()
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
         ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
         ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value,
-        ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value
+        ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value,
+        ["render-scale-exponent"] = 1.0 / settings.global["aa-render-scale"].value,
     }
 
     global.settings.colors = {}
