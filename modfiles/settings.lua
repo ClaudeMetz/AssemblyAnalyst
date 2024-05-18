@@ -26,7 +26,16 @@ data:extend{
         setting_type = "runtime-global",
         default_value = false,
         order = "d"
-    }
+    },
+    {
+        type = "double-setting",
+        name = "aa-render-scale",
+        setting_type = "runtime-global",
+        default_value = 1.0,
+        minimum_value = 1.0,
+        maximum_value = 4.0,
+        order = "e"
+    },
 }
 
 local status_types = {

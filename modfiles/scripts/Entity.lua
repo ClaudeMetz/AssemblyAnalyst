@@ -45,7 +45,7 @@ end
 function Entity:redraw_statusbar()
     local statistics, total_datapoints = self.statistics, 0
     -- We do this accounting here to keep the on_tick size down
-    for _, statistic in pairs(statistics) do total_datapoints = total_datapoints + statistic end
+    for _, statistic in pairs(statistics) do total_datapoints = total_datapoints + math.pow(statistic, global.settings["render-scale-exponent"]) end
     if total_datapoints == 0 then return end
 
     local statusbar_area = self.statusbar_area
@@ -62,7 +62,7 @@ function Entity:redraw_statusbar()
         local statistic = statistics[statistic_name]
 
         if statistic ~= 0 then
-            local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
+            local new_horizontal_offset = left_top_offset[1] + (usable_width * (math.pow(statistic, global.settings["render-scale-exponent"]) / total_datapoints))
             right_bottom_offset[1] = new_horizontal_offset
 
             local render_object_id = render_objects[statistic_name]
