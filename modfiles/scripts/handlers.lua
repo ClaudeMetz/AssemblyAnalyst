@@ -9,14 +9,14 @@ local default_status_colors = {
 }
 
 function handlers.reload_settings()
-    global.settings = {
+    storage.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
         ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
         ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value,
         ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value
     }
 
-    global.settings.colors = {}
+    storage.settings.colors = {}
     -- This 'abuses' the inherent order that Factorio lua pairs brings
     for status_type, _ in pairs(DATA.statistics_template()) do
         local hex_color = settings.global["aa-status-color-" .. status_type].value
@@ -25,13 +25,13 @@ function handlers.reload_settings()
             hex_color = default_status_colors[status_type]
         end
 
-        global.settings.colors[status_type] = hex_to_rgb(hex_color)
+        storage.settings.colors[status_type] = hex_to_rgb(hex_color)
     end
 end
 
 
 local function remove_overlapping_zones(surface, area)
-    local zones = global.zones
+    local zones = storage.zones
     for index, zone in pairs(zones) do
         if zone:overlaps_with(surface, area, nil) then
             zone:destroy_render_objects()
@@ -48,9 +48,9 @@ function handlers.area_selected(player, area, entities)
 
     remove_overlapping_zones(player.surface, area)
 
-    new_zone.index = global.zone_running_index
-    global.zones[global.zone_running_index] = new_zone
-    global.zone_running_index = global.zone_running_index + 1
+    new_zone.index = storage.zone_running_index
+    storage.zones[storage.zone_running_index] = new_zone
+    storage.zone_running_index = storage.zone_running_index + 1
 
     gui.refresh_all()
 end
@@ -69,7 +69,7 @@ function handlers.entity_built(event)
     if new_entity.type == "entity-ghost" or not Zone.allow_analysis(new_entity) then return end
 
     -- Check if it overlaps with any of the active zones
-    for _, zone in pairs(global.zones) do
+    for _, zone in pairs(storage.zones) do
         if zone:overlaps_with(new_entity.surface, nil, new_entity) then
             local entity_map = zone.entity_map
             entity_map[new_entity.unit_number] = Entity.init(new_entity)
@@ -89,7 +89,7 @@ end
 -- Collects statistics and redraws certain statusbars
 function handlers.on_tick()
     -- The surface will always be valid because invalid ones are immediately removed
-    for _, zone in pairs(global.zones) do
+    for _, zone in pairs(storage.zones) do
         local entity_removed = false
 
         for unit_number, entity in pairs(zone.entity_map) do

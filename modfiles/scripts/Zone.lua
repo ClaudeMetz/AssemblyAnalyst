@@ -5,7 +5,7 @@ Zone.__index = Zone
 
 function Zone.allow_analysis(entity)
     return (not string.find(entity.name, "miniloader%-inserter$") and
-            not (global.settings["exclude-inserters"] and entity.type == "inserter"))
+            not (storage.settings["exclude-inserters"] and entity.type == "inserter"))
 end
 
 function Zone.init(surface, area, entities)
@@ -27,7 +27,7 @@ function Zone.init(surface, area, entities)
         end
     end
 
-    if global.settings["magnetic-selection"] then zone:magnetic_snap() end
+    if storage.settings["magnetic-selection"] then zone:magnetic_snap() end
     zone:snap_to_grid()
 
     -- Make sure that the zone is 2-dimensional, else cancel the init process
@@ -48,14 +48,14 @@ function Zone:refresh_status_mapping()
 end
 
 function Zone:destroy_render_objects()
-    rendering.destroy(self.render_objects.border)
+    self.render_objects.border.destroy()
     for _, entity in pairs(self.entity_map) do entity:destroy_render_objects() end
 end
 
 
 -- Refreshes this area and schedule
 function Zone:refresh()
-    if global.settings["resnap-zone-on-change"] then
+    if storage.settings["resnap-zone-on-change"] then
         self:magnetic_snap()
         self:snap_to_grid()
         self:redraw_border()
@@ -70,7 +70,7 @@ end
 
 -- Resets any entity data that has been collected
 function Zone:reset_entity_data()
-    if global.settings["reset-data-on-change"] then
+    if storage.settings["reset-data-on-change"] then
         for _, entity in pairs(self.entity_map) do
             entity.statistics = DATA.statistics_template()
         end
@@ -113,11 +113,10 @@ end
 
 function Zone:redraw_border()
     local border_color = { r = 0, g = 0.75, b = 1 }
-    local border_object_id = self.render_objects.border
+    local border_object = self.render_objects.border
 
-    if border_object_id ~= nil then
-        rendering.set_left_top(border_object_id, self.area.left_top)
-        rendering.set_right_bottom(border_object_id, self.area.right_bottom)
+    if border_object ~= nil then
+        border_object.set_corners(self.area.left_top, self.area.right_bottom)
     else
         self.render_objects.border = rendering.draw_rectangle{surface=self.surface,
           left_top=self.area.left_top, right_bottom=self.area.right_bottom, filled=false, width=4,

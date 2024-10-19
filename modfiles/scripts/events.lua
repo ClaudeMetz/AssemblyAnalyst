@@ -6,14 +6,14 @@ script.on_init(function()
         if freeplay["set_disable_crashsite"] then remote.call("freeplay", "set_disable_crashsite", true) end
     end
 
-    global.zones = {}
-    global.zone_running_index = 1
+    storage.zones = {}
+    storage.zone_running_index = 1
     handlers.reload_settings()
 end)
 
 script.on_load(function()
     -- Recreate the necessary metatables
-    for _, zone in pairs(global.zones) do
+    for _, zone in pairs(storage.zones) do
         setmetatable(zone, Zone)
         setmetatable(zone.redraw_schedule, Schedule)
         for _, entity in pairs(zone.entity_map) do setmetatable(entity, Entity) end
@@ -24,13 +24,13 @@ script.on_configuration_changed(function(data)
     handlers.reload_settings()
 
     if data.mod_changes["assemblyanalyst"] then
-        for zone_index, zone in pairs(global.zones) do
+        for zone_index, zone in pairs(storage.zones) do
             zone:destroy_render_objects()
-            global.zones[zone_index] = nil
+            storage.zones[zone_index] = nil
         end
     end
 
-    for _, zone in pairs(global.zones) do
+    for _, zone in pairs(storage.zones) do
         zone:refresh_status_mapping()
     end
 
@@ -62,8 +62,8 @@ end)
 
 
 script.on_event(defines.events.on_surface_deleted, function(_)
-    for zone_index, zone in pairs(global.zones) do
-        if not zone.surface.valid then global.zones[zone_index] = nil end
+    for zone_index, zone in pairs(storage.zones) do
+        if not zone.surface.valid then storage.zones[zone_index] = nil end
     end
 end)
 
@@ -95,9 +95,9 @@ script.on_event(defines.events.on_tick, handlers.on_tick)
 
 
 commands.add_command("aa-clear-zones", {"command-help.aa_clear_zones"}, function()
-    for zone_index, zone in pairs(global.zones) do
+    for zone_index, zone in pairs(storage.zones) do
         zone:destroy_render_objects()
-        global.zones[zone_index] = nil
+        storage.zones[zone_index] = nil
     end
     gui.rebuild_all()
 end)

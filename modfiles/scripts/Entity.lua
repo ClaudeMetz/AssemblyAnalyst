@@ -9,7 +9,7 @@ function Entity.init(object)
         statusbar_area = nil,
         status_to_statistic = nil,
         statistics = DATA.statistics_template(),
-        render_objects = {}  -- [statistic_name] = render_object_id
+        render_objects = {}  -- [statistic_name] = render_object
     }
     setmetatable(entity, Entity)
 
@@ -36,8 +36,8 @@ function Entity:refresh_status_mapping()
 end
 
 function Entity:destroy_render_objects()
-    for _, render_object_id in pairs(self.render_objects) do
-        rendering.destroy(render_object_id)
+    for _, render_object in pairs(self.render_objects) do
+        render_object.destroy()
     end
 end
 
@@ -55,7 +55,7 @@ function Entity:redraw_statusbar()
     local usable_width = statusbar_area.usable_width
 
     local render_objects, entity = self.render_objects, self.object
-    local colors = global.settings.colors
+    local colors = storage.settings.colors
 
     -- This 'abuses' the inherent order that Factorio lua pairs brings
     for statistic_name, _ in pairs(statistics) do
@@ -65,12 +65,13 @@ function Entity:redraw_statusbar()
             local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
             right_bottom_offset[1] = new_horizontal_offset
 
-            local render_object_id = render_objects[statistic_name]
+            local render_object = render_objects[statistic_name]
             local color = colors[statistic_name]
 
-            if render_object_id then
-                rendering.set_corners(render_object_id, entity, left_top_offset, entity, right_bottom_offset)
-                rendering.set_color(render_object_id, color)
+            if render_object then
+                render_object.set_corners({entity=entity, offset=left_top_offset},
+                    {entity=entity, offset=right_bottom_offset})
+                render_object.color = color
             else
                 render_objects[statistic_name] = rendering.draw_rectangle{
                     left_top=self.object, left_top_offset=left_top_offset,

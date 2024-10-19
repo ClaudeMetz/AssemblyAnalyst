@@ -2,7 +2,7 @@ gui = {}
 
 local function determine_entity_count()
     local entity_count = 0
-    for _, zone in pairs(global.zones) do
+    for _, zone in pairs(storage.zones) do
         entity_count = entity_count + zone.entity_count
     end
     return entity_count
@@ -24,7 +24,7 @@ function gui.show_info_window(player)
 
         -- This 'abuses' the inherent order that Factorio lua pairs brings
         for status_type, _ in pairs(DATA.statistics_template()) do
-            local color = global.settings.colors[status_type]
+            local color = storage.settings.colors[status_type]
             table_legend.add{type="label", caption={"aa-gui.legend_color", color.r, color.g, color.b}}
             table_legend.add{type="label", caption={"aa-gui." .. status_type .. "_name"}}
         end
