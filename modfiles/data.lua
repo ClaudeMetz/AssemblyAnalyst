@@ -6,26 +6,28 @@ data:extend({
         type = "selection-tool",
         name = "aa-zone-selector",
         stack_size = 1,
-        show_in_library = false,
-        flags = {"hidden", "spawnable", "not-stackable", "only-in-cursor"},
+        hidden = true,
+        flags = {"spawnable", "not-stackable", "only-in-cursor"},
         subgroup = "other",
         order = "aa-a[zone-selector]",
         icon = "__assemblyanalyst__/graphics/tool-zone-selector.png",
         icon_size = 32,
-
-        selection_color = { r = 0, g = 0.75, b = 1 },
-        selection_mode = {"entity-with-health"},
-        selection_cursor_box_type = "electricity",
-        entity_filter_mode = "whitelist",
-        entity_type_filters = zone_selector_entity_filters,
-
-        alt_selection_color = { r = 0.9, g = 0.15, b = 0 },
-        -- The alt mode is set to nothing so you don't get the impression that
-        -- you can exclude individual entities from the selection
-        alt_selection_mode = {"nothing"},
-        alt_selection_cursor_box_type = "not-allowed",
-        alt_entity_filter_mode = "whitelist",
-        alt_entity_type_filters = zone_selector_entity_filters
+        select = {
+            mode = "entity-with-health",
+            border_color = { r = 0, g = 0.75, b = 1 },
+            cursor_box_type = "electricity",
+            entity_filter_mode = "whitelist",
+            entity_type_filters = zone_selector_entity_filters
+        },
+        alt_select = {
+            -- The alt mode is set to nothing so you don't get the impression that
+            -- you can exclude individual entities from the selection
+            mode = "nothing",
+            border_color = { r = 0.9, g = 0.15, b = 0 },
+            cursor_box_type = "not-allowed",
+            entity_filter_mode = "whitelist",
+            entity_type_filters = zone_selector_entity_filters
+        }
     },
 
     {
@@ -47,24 +49,10 @@ data:extend({
         item_to_spawn = "aa-zone-selector",
         associated_control_input = "aa-select-zone",
         order = "aa-a[select-zone]",
-        icon =
-        {
-            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-32.png",
-            flags = {"icon"},
-            size = 32,
-        },
-        small_icon =
-        {
-            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-24.png",
-            flags = {"icon"},
-            size = 24
-        },
-        disabled_small_icon =
-        {
-            filename = "__assemblyanalyst__/graphics/shortcut-zone-selector-white-24.png",
-            flags = {"icon"},
-            size = 24
-        }
+        icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-32.png",
+        icon_size = 32,
+        small_icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-24.png",
+        small_icon_size = 24
     },
 
     -- Tips and Tricks
