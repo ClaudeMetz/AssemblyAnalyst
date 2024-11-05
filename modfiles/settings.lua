@@ -37,7 +37,7 @@ local status_types = {
     disabled = "#cc00cc"
 }
 
--- The order matters here, but pairs handles it correctly in Factorio lua
+-- The order matters here, but pairs handles it correctly in Factorio Lua
 local index = 1
 for type, default_color in pairs(status_types) do
     data:extend{
