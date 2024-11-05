@@ -1,6 +1,6 @@
 # Assembly Analyst
 
-This is a mod for the game [Factorio](https://www.factorio.com). It is published in zip-format on the Factorio [mod portal](https://mods.factorio.com/), which allows it to be downloaded and updated in-game by the users/players.
+This is a mod for the game [Factorio](https://www.factorio.com). It is published in zip-format on the Factorio [mod portal](https://mods.factorio.com/mod/assemblyanalyst), which allows it to be downloaded and updated in-game by the users/players.
 
 It enables you to select certain parts of a factory for analysis, providing a breakdown of what all the assemblers, miners, labs, and inserters spend their time on. At a basic level, what [Bottleneck](https://mods.factorio.com/mod/Bottleneck) does. What Assembly Analyst provides in addition is a more detailed view of the status of the machines, and more importantly, a history of the machines' status, so it's possible to see how much of the time a machine is not doing what it should.
 
