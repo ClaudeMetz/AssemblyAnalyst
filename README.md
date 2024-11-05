@@ -6,7 +6,7 @@ It enables you to select certain parts of a factory for analysis, providing a br
 
 The mod is optimized for performance, but it is still pretty performance-intensive. It's intended to be used to analyse local, newly built production lines, not to leave big analysis zones active permanently.
 
-There is a public [Trello board](https://trello.com/b/qGlRRD21/assembly-analyst) organizing what's on my radar. Suggestions and bug reports are centralized on the [mod portal](https://mods.factorio.com/mod/assemblyanalyst/discussion). The Factory Planner [Discord](https://discord.gg/ABqNEQc) has a section dedicated to Assembly Analyst, if you want to talk to me more directly/casually.
+Suggestions and bug reports are centralized here on Github. Feel free to join the Factory Planner [Discord](https://discord.gg/ABqNEQc) to talk to me and others in a more casual way.
 
 ## Contribute
 
