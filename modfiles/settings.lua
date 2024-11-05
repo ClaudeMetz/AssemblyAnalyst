@@ -30,11 +30,11 @@ data:extend{
 }
 
 local status_types = {
-    working = "#008700",
-    output_overload = "#66e000",
-    input_shortage = "#ffa500",
-    insufficient_power = "#cc0000",
-    disabled = "#cc00cc"
+    working = {0, 135, 0},
+    output_overload = {102, 224, 0},
+    input_shortage = {255, 165, 0},
+    insufficient_power = {204, 0, 0},
+    disabled = {204, 0, 204}
 }
 
 -- The order matters here, but pairs handles it correctly in Factorio Lua
@@ -42,7 +42,7 @@ local index = 1
 for type, default_color in pairs(status_types) do
     data:extend{
         {
-            type = "string-setting",
+            type = "color-setting",
             name = "aa-status-color-" .. type,
             setting_type = "runtime-global",
             default_value = default_color,
