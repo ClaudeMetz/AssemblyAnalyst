@@ -57,7 +57,7 @@ function Entity:redraw_statusbar()
     local render_objects, entity = self.render_objects, self.object
     local colors = storage.settings.colors
 
-    -- This 'abuses' the inherent order that Factorio lua pairs brings
+    -- This 'abuses' the inherent order that Factorio Lua pairs brings
     for statistic_name, _ in pairs(statistics) do
         local statistic = statistics[statistic_name]
 

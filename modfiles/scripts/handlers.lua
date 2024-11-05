@@ -1,13 +1,5 @@
 handlers = {}
 
-local default_status_colors = {
-    working = "#008700",
-    output_overload = "#66e000",
-    input_shortage = "#ffa500",
-    insufficient_power = "#cc0000",
-    disabled = "#cc00cc"
-}
-
 function handlers.reload_settings()
     storage.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
@@ -17,15 +9,10 @@ function handlers.reload_settings()
     }
 
     storage.settings.colors = {}
-    -- This 'abuses' the inherent order that Factorio lua pairs brings
+    -- This 'abuses' the inherent order that Factorio Lua pairs brings
     for status_type, _ in pairs(DATA.statistics_template()) do
-        local hex_color = settings.global["aa-status-color-" .. status_type].value
-
-        if not string.find(hex_color, "^#?[0-9a-f]+$") then
-            hex_color = default_status_colors[status_type]
-        end
-
-        storage.settings.colors[status_type] = hex_to_rgb(hex_color)
+        local color = settings.global["aa-status-color-" .. status_type].value
+        storage.settings.colors[status_type] = color
     end
 end
 

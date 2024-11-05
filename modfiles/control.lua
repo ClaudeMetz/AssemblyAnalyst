@@ -1,5 +1,4 @@
 collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
-hex_to_rgb = require("util").color  -- base game lualib
 
 require("scripts.handlers")
 require("scripts.events")
@@ -9,7 +8,7 @@ require("scripts.Zone")
 require("scripts.Schedule")
 require("scripts.Entity")
 
-DEV_ACTIVE = false  -- Enables certain conveniences for development
+DEV_ACTIVE = true  -- Enables certain conveniences for development
 
 REDRAW_CYCLE_RATE = 120  -- redraws entity status every 2 seconds
 

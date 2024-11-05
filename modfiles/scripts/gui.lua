@@ -22,7 +22,7 @@ function gui.show_info_window(player)
         table_legend.style.horizontal_spacing = 12
         table_legend.style.column_alignments[1] = "middle-right"
 
-        -- This 'abuses' the inherent order that Factorio lua pairs brings
+        -- This 'abuses' the inherent order that Factorio Lua pairs brings
         for status_type, _ in pairs(DATA.statistics_template()) do
             local color = storage.settings.colors[status_type]
             table_legend.add{type="label", caption={"aa-gui.legend_color", color.r, color.g, color.b}}
