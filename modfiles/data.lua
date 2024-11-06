@@ -40,6 +40,14 @@ data:extend({
         consuming = "game-only",
         order = "a"
     },
+    {
+        -- Keyboard shortcut to clear all zones
+        type = "custom-input",
+        name = "aa-clear-zones",
+        key_sequence = "CONTROL + ALT + C",
+        consuming = "game-only",
+        order = "b"
+    },
 
     {
         -- Quickbar shortcut for the zone-selector

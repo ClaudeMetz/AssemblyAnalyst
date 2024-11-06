@@ -1,6 +1,22 @@
 local handlers = require("scripts.handlers")
 local gui = require("scripts.gui")
 
+local function reset_zones(full)
+    if full then
+        for zone_index, zone in pairs(storage.zones) do
+            zone:destroy_render_objects()
+            storage.zones[zone_index] = nil
+        end
+    else
+        for _, zone in pairs(storage.zones) do
+            zone:refresh_status_mapping()
+        end
+    end
+
+    gui.rebuild_all()
+end
+
+
 script.on_init(function()
     -- Disable annoying stuff for development
     local freeplay = remote.interfaces["freeplay"]
@@ -17,18 +33,7 @@ end)
 script.on_configuration_changed(function(data)
     handlers.reload_settings()
 
-    if data.mod_changes["assemblyanalyst"] then
-        for zone_index, zone in pairs(storage.zones) do
-            zone:destroy_render_objects()
-            storage.zones[zone_index] = nil
-        end
-    end
-
-    for _, zone in pairs(storage.zones) do
-        zone:refresh_status_mapping()
-    end
-
-    gui.rebuild_all()
+    reset_zones(data.mod_changes["assemblyanalyst"] ~= nil)
 end)
 
 
@@ -89,11 +94,5 @@ script.on_event(defines.events.script_raised_built, handlers.entity_built, entit
 
 script.on_event(defines.events.on_tick, handlers.on_tick)
 
-
-commands.add_command("aa-clear-zones", {"command-help.aa_clear_zones"}, function()
-    for zone_index, zone in pairs(storage.zones) do
-        zone:destroy_render_objects()
-        storage.zones[zone_index] = nil
-    end
-    gui.rebuild_all()
-end)
+script.on_event("aa-clear-zones", function() reset_zones(true) end)
+commands.add_command("aa-clear-zones", {"command-help.aa_clear_zones"}, function() reset_zones(true) end)
