@@ -31,6 +31,7 @@ local common_status = {
     [defines.entity_status.low_input_fluid] = "insufficient_power",
     [defines.entity_status.low_temperature] = "insufficient_power",
 
+    [defines.entity_status.disabled] = "disabled",
     [defines.entity_status.frozen] = "disabled",
     [defines.entity_status.ghost] = "disabled",
     [defines.entity_status.broken] = "disabled",
@@ -47,6 +48,7 @@ DATA.status_to_statistic.assembler = {
     [defines.entity_status.launching_rocket] = "working",
     [defines.entity_status.preparing_rocket_for_launch] = "working",
 
+    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
     [defines.entity_status.waiting_to_launch_rocket] = "output_overload",
     [defines.entity_status.waiting_for_space_in_platform_hub] = "output_overload",
 

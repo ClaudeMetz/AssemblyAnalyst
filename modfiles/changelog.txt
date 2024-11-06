@@ -7,7 +7,7 @@ Date: 00. 00. 0000
   Changes:
     -
   Bugfixes:
-    -
+    - Fixed a couple of crashes due to API changes in 2.0
 
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
