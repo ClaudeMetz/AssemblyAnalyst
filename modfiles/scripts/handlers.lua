@@ -89,12 +89,13 @@ function handlers.on_tick()
                 local statistic_id = entity.status_to_statistic[object.status]
                 assert(statistic_id, "unhandled entity status '" .. object.status ..
                     "' for entity type '" .. object.type .. "'")
-                local statistics = entity.statistics
+                local statistics = entity.statistics_blocks[entity.newest_block]
                 statistics[statistic_id] = statistics[statistic_id] + 1
             end
         end
 
         if entity_removed then zone:refresh() end
-        zone:tick()
+
+        zone:tick()  -- cycles data and redraws status bars
     end
 end

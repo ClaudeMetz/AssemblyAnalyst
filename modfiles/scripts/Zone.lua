@@ -6,16 +6,17 @@ function Zone.init(surface, area, entities)
     local zone = {
         surface = surface,
         area = area,
+
         entity_map = {},
         entity_count = 0,
-        render_objects = {},
+
+        render_objects = {},   -- just contains `border`
 
         cycles = nil,
         cycle_rate = REDRAW_CYCLE_RATE,
         current_cycle = nil,
     }
     setmetatable(zone, Zone)
-
 
     for _, entity in pairs(entities) do
         zone.entity_map[entity.unit_number] = Entity.init(entity)
@@ -29,7 +30,7 @@ function Zone.init(surface, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
 
-    zone:reset_cycle()
+    zone:reset_cycle()  -- initializes cycle data
     zone:redraw_border()
 
     return zone
@@ -168,6 +169,7 @@ function Zone:tick()
     if cycle == nil then return end
 
     for _, entity in pairs(cycle) do
+        entity:cycle_statistics()
         entity:redraw_statusbar()
     end
 end

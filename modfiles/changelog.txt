@@ -2,7 +2,7 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    -
+    - Changed the data tracking to be a moving window instead of it just accumulating forever
   Changes:
     - Converted color settings to the new color-picker type
   Bugfixes:
@@ -18,7 +18,7 @@ Date: 19. 10. 2024
 Version: 1.1.13
 Date: 21. 12. 2023
   Changes:
-    - Change away from using Phobos as the Lua compiler
+    - Changed away from using Phobos as the Lua compiler
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.12

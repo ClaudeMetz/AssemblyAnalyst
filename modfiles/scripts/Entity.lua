@@ -6,14 +6,20 @@ function Entity.init(object)
     local entity = {
         object = object,
         surface = object.surface,
-        statusbar_area = nil,
+
+        statusbar_area = nil,  -- determined below
+        render_objects = {},  -- [statistic_name] = render_object
+
         status_to_statistic = nil,
-        statistics = DATA.statistics_template(),
-        render_objects = {}  -- [statistic_name] = render_object
+
+        statistics_blocks = nil,
+        newest_block = nil,
+        oldest_block = nil,
+
+        running_total = nil,
+        total_datapoints = nil
     }
     setmetatable(entity, Entity)
-
-    entity:refresh_status_mapping()
 
     local collision_box = object.prototype.collision_box
     local entity_width = collision_box.right_bottom.x - collision_box.left_top.x
@@ -26,13 +32,24 @@ function Entity.init(object)
         usable_width = usable_width
     }
 
+    entity:refresh_status_mapping()  -- initializes status_to_statistic
+    entity:reset_statistics()  -- initializes statistics data
+
     return entity
 end
+
 
 function Entity:refresh_status_mapping()
     if not self.object.valid then return end
     local category = DATA.type_to_category[self.object.type]
     self.status_to_statistic = DATA.status_to_statistic[category]
+end
+
+function Entity:reset_statistics()
+    self.statistics_blocks = {DATA.statistics_template()}
+    self.newest_block, self.oldest_block = 1, 1
+    self.running_total = DATA.statistics_template()
+    self.total_datapoints = 0
 end
 
 function Entity:destroy_render_objects()
@@ -41,15 +58,31 @@ function Entity:destroy_render_objects()
     end
 end
 
-function Entity:reset_statistics()
-    self.statistics = DATA.statistics_template()
+
+function Entity:add_statistics(block, multiplier)
+    for statistic_name, statistic in pairs(block) do
+        self.running_total[statistic_name] = self.running_total[statistic_name] + (statistic * multiplier)
+        self.total_datapoints = self.total_datapoints + (statistic * multiplier)
+    end
+end
+
+function Entity:cycle_statistics()
+    self:add_statistics(self.statistics_blocks[self.newest_block], 1)
+
+    self.newest_block = self.newest_block + 1
+    self.statistics_blocks[self.newest_block] = DATA.statistics_template()
+
+    if self.newest_block - self.oldest_block > (STATISTICS_WINDOW_SIZE / REDRAW_CYCLE_RATE) then
+        self:add_statistics(self.statistics_blocks[self.oldest_block], -1)
+
+        self.statistics_blocks[self.oldest_block] = nil
+        self.oldest_block = self.oldest_block + 1
+    end
 end
 
 
 function Entity:redraw_statusbar()
-    local statistics, total_datapoints = self.statistics, 0
-    -- We do this accounting here to keep the on_tick size down
-    for _, statistic in pairs(statistics) do total_datapoints = total_datapoints + statistic end
+    local total_datapoints = self.total_datapoints
     if total_datapoints == 0 then return end
 
     local statusbar_area = self.statusbar_area
@@ -62,9 +95,7 @@ function Entity:redraw_statusbar()
     local colors = storage.settings.colors
 
     -- This 'abuses' the inherent order that Factorio Lua pairs brings
-    for statistic_name, _ in pairs(statistics) do
-        local statistic = statistics[statistic_name]
-
+    for statistic_name, statistic in pairs(self.running_total) do
         if statistic ~= 0 then
             local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
             right_bottom_offset[1] = new_horizontal_offset

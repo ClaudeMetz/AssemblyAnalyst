@@ -9,7 +9,8 @@ require("scripts.Entity")
 
 DEV_ACTIVE = true  -- Enables certain conveniences for development
 
-REDRAW_CYCLE_RATE = 120  -- redraws entity status every 2 seconds
+REDRAW_CYCLE_RATE = 1 * 60  -- redraws entity status every second
+STATISTICS_WINDOW_SIZE = 60 * 60  -- ages out statistics after 60 seconds
 
 
 -- ** DATA **
