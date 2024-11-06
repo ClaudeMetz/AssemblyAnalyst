@@ -2,12 +2,6 @@
 Zone = {}
 Zone.__index = Zone
 
-
-function Zone.allow_analysis(entity)
-    return (not string.find(entity.name, "miniloader%-inserter$") and
-            not (storage.settings["exclude-inserters"] and entity.type == "inserter"))
-end
-
 function Zone.init(surface, area, entities)
     local zone = {
         surface = surface,
@@ -21,10 +15,8 @@ function Zone.init(surface, area, entities)
 
 
     for _, entity in pairs(entities) do
-        if Zone.allow_analysis(entity) then
-            zone.entity_map[entity.unit_number] = Entity.init(entity)
-            zone.entity_count = zone.entity_count + 1
-        end
+        zone.entity_map[entity.unit_number] = Entity.init(entity)
+        zone.entity_count = zone.entity_count + 1
     end
 
     if storage.settings["magnetic-selection"] then zone:magnetic_snap() end
@@ -62,19 +54,14 @@ function Zone:refresh()
     end
 
     self.redraw_schedule:reset()
-    self:reset_entity_data()
-
-    self.entity_count = table_size(self.entity_map)  -- this is slow, but easy
-    gui.refresh_all()
-end
-
--- Resets any entity data that has been collected
-function Zone:reset_entity_data()
     if storage.settings["reset-data-on-change"] then
         for _, entity in pairs(self.entity_map) do
             entity.statistics = DATA.statistics_template()
         end
     end
+
+    self.entity_count = table_size(self.entity_map)  -- this is slow, but easy
+    gui.refresh_all()
 end
 
 

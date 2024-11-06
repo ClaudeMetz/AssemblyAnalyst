@@ -53,7 +53,7 @@ end
 function handlers.entity_built(event)
     local new_entity = event.created_entity or event.entity
 
-    if new_entity.type == "entity-ghost" or not Zone.allow_analysis(new_entity) then return end
+    if new_entity.type == "entity-ghost" then return end
 
     -- Check if it overlaps with any of the active zones
     for _, zone in pairs(storage.zones) do
