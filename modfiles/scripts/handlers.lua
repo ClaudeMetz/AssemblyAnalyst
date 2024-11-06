@@ -95,6 +95,6 @@ function handlers.on_tick()
         end
 
         if entity_removed then zone:refresh() end
-        zone.redraw_schedule:tick()
+        zone:tick()
     end
 end

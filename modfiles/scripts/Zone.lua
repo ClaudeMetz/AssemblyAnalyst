@@ -8,8 +8,11 @@ function Zone.init(surface, area, entities)
         area = area,
         entity_map = {},
         entity_count = 0,
-        redraw_schedule = nil,
-        render_objects = {}
+        render_objects = {},
+
+        cycles = nil,
+        cycle_rate = REDRAW_CYCLE_RATE,
+        current_cycle = nil,
     }
     setmetatable(zone, Zone)
 
@@ -26,7 +29,7 @@ function Zone.init(surface, area, entities)
     local left_top, right_bottom = area.left_top, area.right_bottom
     if left_top.x == right_bottom.x or left_top.y == right_bottom.y then return nil end
 
-    zone.redraw_schedule = Schedule.init(zone, REDRAW_CYCLE_RATE, "redraw_entities")
+    zone:reset_cycle()
     zone:redraw_border()
 
     return zone
@@ -45,7 +48,7 @@ function Zone:destroy_render_objects()
 end
 
 
--- Refreshes this area and schedule
+-- Refreshes this area and cycle
 function Zone:refresh()
     if storage.settings["resnap-zone-on-change"] then
         self:magnetic_snap()
@@ -53,10 +56,11 @@ function Zone:refresh()
         self:redraw_border()
     end
 
-    self.redraw_schedule:reset()
+    self:reset_cycle()
+
     if storage.settings["reset-data-on-change"] then
         for _, entity in pairs(self.entity_map) do
-            entity.statistics = DATA.statistics_template()
+            entity:reset_statistics()
         end
     end
 
@@ -132,7 +136,38 @@ function Zone:overlaps_with(surface, area, entity)
 end
 
 
--- Do the work of redrawing the entities in the given cycle
-function Zone.redraw_entities(cycle)
-    for _, entity in pairs(cycle) do entity:redraw_statusbar() end
+
+-- Resets the cycle, incorporating the current entity_map
+function Zone:reset_cycle()
+    self.current_cycle = 1
+    self.cycles = {}
+
+    local entity_map = self.entity_map
+    local actions_per_cycle = math.ceil(table_size(entity_map) / self.cycle_rate)
+    local this_cycle, actions_this_cycle = 1, 0
+
+    for _, entity in pairs(entity_map) do
+        self.cycles[this_cycle] = self.cycles[this_cycle] or {}
+        table.insert(self.cycles[this_cycle], entity)
+
+        actions_this_cycle = actions_this_cycle + 1
+        if actions_this_cycle == actions_per_cycle then
+            this_cycle = this_cycle + 1
+            actions_this_cycle = 0
+        end
+    end
+end
+
+function Zone:tick()
+    -- Advance the cycle, reset it if the end was reached
+    if self.current_cycle == self.cycle_rate then self.current_cycle = 1
+    else self.current_cycle = self.current_cycle + 1 end
+
+    local cycle = self.cycles[self.current_cycle]
+    -- There might not be any work to do this cycle
+    if cycle == nil then return end
+
+    for _, entity in pairs(cycle) do
+        entity:redraw_statusbar()
+    end
 end

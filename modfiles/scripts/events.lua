@@ -15,7 +15,6 @@ script.on_load(function()
     -- Recreate the necessary metatables
     for _, zone in pairs(storage.zones) do
         setmetatable(zone, Zone)
-        setmetatable(zone.redraw_schedule, Schedule)
         for _, entity in pairs(zone.entity_map) do setmetatable(entity, Entity) end
     end
 end)

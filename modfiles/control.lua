@@ -5,7 +5,6 @@ require("scripts.events")
 require("scripts.gui")
 
 require("scripts.Zone")
-require("scripts.Schedule")
 require("scripts.Entity")
 
 DEV_ACTIVE = true  -- Enables certain conveniences for development
@@ -106,7 +105,7 @@ end
 -- ** LLOG **
 -- Internally used logging function for a single table
 local function _llog(table)
-    local excludes = LLOG_EXCLUDES or {}  -- Optional custom excludes defined by the parent mod
+    local excludes = {}  -- Optional custom excludes defined by the parent mod
 
     if type(table) ~= "table" then return (tostring(table)) end
 

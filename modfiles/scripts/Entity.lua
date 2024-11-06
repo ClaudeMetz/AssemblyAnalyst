@@ -41,6 +41,10 @@ function Entity:destroy_render_objects()
     end
 end
 
+function Entity:reset_statistics()
+    self.statistics = DATA.statistics_template()
+end
+
 
 function Entity:redraw_statusbar()
     local statistics, total_datapoints = self.statistics, 0
