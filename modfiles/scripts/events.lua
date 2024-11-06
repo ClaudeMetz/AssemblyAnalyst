@@ -1,3 +1,6 @@
+local handlers = require("scripts.handlers")
+local gui = require("scripts.gui")
+
 script.on_init(function()
     -- Disable annoying stuff for development
     local freeplay = remote.interfaces["freeplay"]
@@ -9,14 +12,6 @@ script.on_init(function()
     storage.zones = {}
     storage.zone_running_index = 1
     handlers.reload_settings()
-end)
-
-script.on_load(function()
-    -- Recreate the necessary metatables
-    for _, zone in pairs(storage.zones) do
-        setmetatable(zone, Zone)
-        for _, entity in pairs(zone.entity_map) do setmetatable(entity, Entity) end
-    end
 end)
 
 script.on_configuration_changed(function(data)

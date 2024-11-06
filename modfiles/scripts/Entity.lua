@@ -1,6 +1,6 @@
--- This is a 'class' representing a specific entity
-Entity = {}
+local Entity = {}
 Entity.__index = Entity
+script.register_metatable("Entity", Entity)
 
 function Entity.init(object)
     local entity = {
@@ -119,3 +119,5 @@ function Entity:redraw_statusbar()
         end
     end
 end
+
+return Entity

@@ -1,6 +1,10 @@
--- This is a 'class' representing a specific area that is to be analysed
-Zone = {}
+local Entity = require("scripts.Entity")
+
+local collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
+
+local Zone = {}
 Zone.__index = Zone
+script.register_metatable("Zone", Zone)
 
 function Zone.init(surface, area, entities)
     local zone = {
@@ -64,7 +68,6 @@ function Zone:refresh()
     end
 
     self.entity_count = table_size(self.entity_map)  -- this is slow, but easy
-    gui.refresh_all()
 end
 
 
@@ -162,3 +165,5 @@ function Zone:tick(cycle)
         entity:redraw_statusbar()
     end
 end
+
+return Zone

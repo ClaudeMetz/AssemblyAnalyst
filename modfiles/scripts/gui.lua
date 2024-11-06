@@ -1,4 +1,4 @@
-gui = {}
+local gui = {}
 
 local function determine_entity_count()
     local entity_count = 0
@@ -75,3 +75,5 @@ function gui.rebuild_all()
         end
     end
 end
+
+return gui

@@ -1,11 +1,4 @@
-collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
-
-require("scripts.handlers")
 require("scripts.events")
-require("scripts.gui")
-
-require("scripts.Zone")
-require("scripts.Entity")
 
 DEV_ACTIVE = true  -- Enables certain conveniences for development
 

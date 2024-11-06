@@ -1,4 +1,9 @@
-handlers = {}
+local Zone = require("scripts.Zone")
+local Entity = require("scripts.Entity")
+
+local gui = require("scripts.gui")
+
+local handlers = {}
 
 function handlers.reload_settings()
     storage.settings = {
@@ -68,6 +73,7 @@ function handlers.entity_built(event)
             end
 
             zone:refresh()
+            gui.refresh_all()
             break
         end
     end
@@ -96,9 +102,11 @@ function handlers.on_tick(event)
             end
         end
 
-        if entity_removed then zone:refresh() end
+        if entity_removed then zone:refresh(); gui.refresh_all() end
 
         local cycle = zone.cycles[current_cycle]
         if cycle then zone:tick(cycle) end  -- cycles data and redraws status bars
     end
 end
+
+return handlers
