@@ -2,12 +2,20 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
+    - 
+  Changes:
+    - 
+  Bugfixes:
+    - 
+
+---------------------------------------------------------------------------------------------------
+Version: 2.0.2
+Date: 06. 11. 2024
+  Features:
     - Changed the status data tracking to be a moving window instead of it just accumulating forever
     - Added a setting to customize the length of this new moving window
     - Converted color settings to the new color-picker type
     - Added a keyboard shortcut to clear all zones (Control + Alt + C)
-  Changes:
-    -
   Bugfixes:
     - Fixed a couple of crashes due to API changes in 2.0
 
