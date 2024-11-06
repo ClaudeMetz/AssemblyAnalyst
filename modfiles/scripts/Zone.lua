@@ -12,9 +12,7 @@ function Zone.init(surface, area, entities)
 
         render_objects = {},   -- just contains `border`
 
-        cycles = nil,
-        cycle_rate = REDRAW_CYCLE_RATE,
-        current_cycle = nil,
+        cycles = nil
     }
     setmetatable(zone, Zone)
 
@@ -140,11 +138,10 @@ end
 
 -- Resets the cycle, incorporating the current entity_map
 function Zone:reset_cycle()
-    self.current_cycle = 1
     self.cycles = {}
 
     local entity_map = self.entity_map
-    local actions_per_cycle = math.ceil(table_size(entity_map) / self.cycle_rate)
+    local actions_per_cycle = math.ceil(table_size(entity_map) / REDRAW_CYCLE_RATE)
     local this_cycle, actions_this_cycle = 1, 0
 
     for _, entity in pairs(entity_map) do
@@ -159,15 +156,7 @@ function Zone:reset_cycle()
     end
 end
 
-function Zone:tick()
-    -- Advance the cycle, reset it if the end was reached
-    if self.current_cycle == self.cycle_rate then self.current_cycle = 1
-    else self.current_cycle = self.current_cycle + 1 end
-
-    local cycle = self.cycles[self.current_cycle]
-    -- There might not be any work to do this cycle
-    if cycle == nil then return end
-
+function Zone:tick(cycle)
     for _, entity in pairs(cycle) do
         entity:cycle_statistics()
         entity:redraw_statusbar()

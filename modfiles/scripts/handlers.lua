@@ -74,7 +74,9 @@ function handlers.entity_built(event)
 end
 
 -- Collects statistics and redraws certain statusbars
-function handlers.on_tick()
+function handlers.on_tick(event)
+    local current_cycle = event.tick % REDRAW_CYCLE_RATE
+
     -- The surface will always be valid because invalid ones are immediately removed
     for _, zone in pairs(storage.zones) do
         local entity_removed = false
@@ -96,6 +98,7 @@ function handlers.on_tick()
 
         if entity_removed then zone:refresh() end
 
-        zone:tick()  -- cycles data and redraws status bars
+        local cycle = zone.cycles[current_cycle]
+        if cycle then zone:tick(cycle) end  -- cycles data and redraws status bars
     end
 end
