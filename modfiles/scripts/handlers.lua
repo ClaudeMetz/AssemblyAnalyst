@@ -6,19 +6,23 @@ local gui = require("scripts.gui")
 local handlers = {}
 
 function handlers.reload_settings()
+    local window_size = (settings.global["aa-window-size"].value * 60) / REDRAW_CYCLE_RATE
+
+    local color_settings = {}
+    -- This 'abuses' the inherent order that Factorio Lua pairs brings
+    for status_type, _ in pairs(DATA.statistics_template()) do
+        local color = settings.global["aa-status-color-" .. status_type].value
+        color_settings[status_type] = color
+    end
+
     storage.settings = {
         ["magnetic-selection"] = settings.global["aa-magnetic-selection"].value,
         ["resnap-zone-on-change"] = settings.global["aa-resnap-zone-on-change"].value,
         ["reset-data-on-change"] = settings.global["aa-reset-data-on-change"].value,
-        ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value
+        ["exclude-inserters"] = settings.global["aa-exclude-inserters"].value,
+        ["window-size"] = window_size,
+        ["colors"] = color_settings
     }
-
-    storage.settings.colors = {}
-    -- This 'abuses' the inherent order that Factorio Lua pairs brings
-    for status_type, _ in pairs(DATA.statistics_template()) do
-        local color = settings.global["aa-status-color-" .. status_type].value
-        storage.settings.colors[status_type] = color
-    end
 end
 
 

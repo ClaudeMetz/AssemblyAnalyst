@@ -36,6 +36,8 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     if event.setting_type == "runtime-global" then
         handlers.reload_settings()
         gui.rebuild_all()
+
+        for _, zone in pairs(storage.zones) do zone:reset_statistics() end
     end
 end)
 

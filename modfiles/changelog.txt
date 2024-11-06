@@ -2,7 +2,8 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    - Changed the data tracking to be a moving window instead of it just accumulating forever
+    - Changed the status data tracking to be a moving window instead of it just accumulating forever
+    - Added a setting to customize the length of this new moving window
     - Converted color settings to the new color-picker type
   Changes:
     -

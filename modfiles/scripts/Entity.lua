@@ -72,7 +72,7 @@ function Entity:cycle_statistics()
     self.newest_block = self.newest_block + 1
     self.statistics_blocks[self.newest_block] = DATA.statistics_template()
 
-    if self.newest_block - self.oldest_block > (STATISTICS_WINDOW_SIZE / REDRAW_CYCLE_RATE) then
+    if self.newest_block - self.oldest_block > storage.settings["window-size"] then
         self:add_statistics(self.statistics_blocks[self.oldest_block], -1)
 
         self.statistics_blocks[self.oldest_block] = nil

@@ -50,6 +50,10 @@ function Zone:destroy_render_objects()
     for _, entity in pairs(self.entity_map) do entity:destroy_render_objects() end
 end
 
+function Zone:reset_statistics()
+    for _, entity in pairs(self.entity_map) do entity:reset_statistics() end
+end
+
 
 -- Refreshes this area and cycle
 function Zone:refresh()
@@ -62,9 +66,7 @@ function Zone:refresh()
     self:reset_cycle()
 
     if storage.settings["reset-data-on-change"] then
-        for _, entity in pairs(self.entity_map) do
-            entity:reset_statistics()
-        end
+        self:reset_statistics()
     end
 
     self.entity_count = table_size(self.entity_map)  -- this is slow, but easy

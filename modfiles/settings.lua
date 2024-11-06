@@ -26,6 +26,15 @@ data:extend{
         setting_type = "runtime-global",
         default_value = false,
         order = "d"
+    },
+    {
+        type = "int-setting",
+        name = "aa-window-size",
+        setting_type = "runtime-global",
+        default_value = 30,
+        minimum_value = 5,
+        maximum_value = 300,
+        order = "e"
     }
 }
 
