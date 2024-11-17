@@ -3,10 +3,8 @@ local gui = require("scripts.gui")
 
 local function reset_zones(full)
     if full then
-        for zone_index, zone in pairs(storage.zones) do
-            zone:destroy_render_objects()
-            storage.zones[zone_index] = nil
-        end
+        rendering.clear("assemblyanalyst")
+        storage.zones = {}
     else
         for _, zone in pairs(storage.zones) do
             zone:refresh_status_mapping()
