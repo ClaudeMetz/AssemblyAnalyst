@@ -57,9 +57,9 @@ data:extend({
         item_to_spawn = "aa-zone-selector",
         associated_control_input = "aa-select-zone",
         order = "aa-a[select-zone]",
-        icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-32.png",
-        icon_size = 32,
-        small_icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-black-24.png",
+        icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-x56.png",
+        icon_size = 56,
+        small_icon = "__assemblyanalyst__/graphics/shortcut-zone-selector-x24.png",
         small_icon_size = 24
     },
 
