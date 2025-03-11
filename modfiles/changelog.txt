@@ -2,9 +2,15 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    -
+    - 
   Changes:
-    -
+    - 
+  Bugfixes:
+    - 
+
+---------------------------------------------------------------------------------------------------
+Version: 2.0.5
+Date: 11. 03. 2025
   Bugfixes:
     - Fixed the mod setting to ignore inserters not doing anything
 
