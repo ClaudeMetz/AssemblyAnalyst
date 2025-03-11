@@ -21,8 +21,10 @@ function Zone.init(surface, area, entities)
     setmetatable(zone, Zone)
 
     for _, entity in pairs(entities) do
-        zone.entity_map[entity.unit_number] = Entity.init(entity)
-        zone.entity_count = zone.entity_count + 1
+        if entity.type ~= "inserter" or not storage.settings["exclude-inserters"] then
+            zone.entity_map[entity.unit_number] = Entity.init(entity)
+            zone.entity_count = zone.entity_count + 1
+        end
     end
 
     if storage.settings["magnetic-selection"] then zone:magnetic_snap() end
