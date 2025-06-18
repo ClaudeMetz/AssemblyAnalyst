@@ -57,13 +57,15 @@ DATA.status_to_statistic.assembler = {
     [defines.entity_status.fluid_ingredient_shortage] = "input_shortage",
 
     [defines.entity_status.no_recipe] = "disabled",
+    [defines.entity_status.recipe_not_researched] = "recipe_not_researched",
+    [defines.entity_status.recipe_is_parameter] = "recipe_is_parameter"
 }
 add_common(DATA.status_to_statistic.assembler)
 
 DATA.status_to_statistic.lab = {
     [defines.entity_status.missing_science_packs] = "input_shortage",
 
-    [defines.entity_status.no_research_in_progress] = "disabled",
+    [defines.entity_status.no_research_in_progress] = "disabled"
 }
 add_common(DATA.status_to_statistic.lab)
 
@@ -71,7 +73,7 @@ DATA.status_to_statistic.mining_drill = {
     [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
 
     [defines.entity_status.no_minable_resources] = "input_shortage",
-    [defines.entity_status.missing_required_fluid] = "input_shortage",
+    [defines.entity_status.missing_required_fluid] = "input_shortage"
 }
 add_common(DATA.status_to_statistic.mining_drill)
 
