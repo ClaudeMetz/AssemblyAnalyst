@@ -82,7 +82,8 @@ local entity_built_filter = {
     {filter="crafting-machine"},
     {filter="type", type="lab"},
     {filter="type", type="mining-drill"},
-    {filter="type", type="inserter"}
+    {filter="type", type="inserter"},
+    {filter="type", type="agricultural-tower"},
 }
 
 script.on_event(defines.events.on_built_entity, handlers.entity_built, entity_built_filter)
