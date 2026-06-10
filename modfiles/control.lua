@@ -16,7 +16,7 @@ DATA.type_to_category = {
     ["lab"] = "lab",
     ["mining-drill"] = "mining_drill",
     ["inserter"] = "inserter",
-    ["agricultural-tower"] = "agri_tower",
+    ["agricultural-tower"] = "agricultural_tower",
 }
 
 local common_status = {
@@ -90,12 +90,12 @@ DATA.status_to_statistic.inserter = {
 }
 add_common(DATA.status_to_statistic.inserter)
 
-DATA.status_to_statistic.agri_tower = {
+DATA.status_to_statistic.agricultural_tower = {
     [defines.entity_status.not_enough_space_in_output] = "output_overload",
     [defines.entity_status.no_spot_seedable_by_inputs] = "input_shortage",
     [defines.entity_status.waiting_for_plants_to_grow] = "input_shortage",
 }
-add_common(DATA.status_to_statistic.agri_tower)
+add_common(DATA.status_to_statistic.agricultural_tower)
 
 function DATA.statistics_template()
     return {
