@@ -21,9 +21,11 @@ DATA.type_to_category = {
 
 local common_status = {
     [defines.entity_status.working] = "working",
+    [defines.entity_status.normal] = "working",
 
     [defines.entity_status.full_output] = "output_overload",
     [defines.entity_status.full_burnt_result_output] = "output_overload",
+    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
 
     [defines.entity_status.no_power] = "insufficient_power",
     [defines.entity_status.low_power] = "insufficient_power",
@@ -32,10 +34,7 @@ local common_status = {
     [defines.entity_status.low_input_fluid] = "insufficient_power",
     [defines.entity_status.low_temperature] = "insufficient_power",
 
-    [defines.entity_status.disabled] = "disabled",
     [defines.entity_status.frozen] = "disabled",
-    [defines.entity_status.ghost] = "disabled",
-    [defines.entity_status.broken] = "disabled",
     [defines.entity_status.disabled_by_control_behavior] = "disabled",
     [defines.entity_status.disabled_by_script] = "disabled",
     [defines.entity_status.marked_for_deconstruction] = "disabled"
@@ -49,7 +48,6 @@ DATA.status_to_statistic.assembler = {
     [defines.entity_status.launching_rocket] = "working",
     [defines.entity_status.preparing_rocket_for_launch] = "working",
 
-    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
     [defines.entity_status.waiting_to_launch_rocket] = "output_overload",
     [defines.entity_status.waiting_for_space_in_platform_hub] = "output_overload",
 
@@ -71,15 +69,12 @@ DATA.status_to_statistic.lab = {
 add_common(DATA.status_to_statistic.lab)
 
 DATA.status_to_statistic.mining_drill = {
-    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
-
     [defines.entity_status.no_minable_resources] = "input_shortage",
     [defines.entity_status.missing_required_fluid] = "input_shortage"
 }
 add_common(DATA.status_to_statistic.mining_drill)
 
 DATA.status_to_statistic.inserter = {
-    [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
     [defines.entity_status.waiting_for_target_to_be_built] = "output_overload",
     [defines.entity_status.waiting_for_train] = "output_overload",
 
@@ -92,8 +87,9 @@ add_common(DATA.status_to_statistic.inserter)
 
 DATA.status_to_statistic.agricultural_tower = {
     [defines.entity_status.not_enough_space_in_output] = "output_overload",
+
     [defines.entity_status.no_spot_seedable_by_inputs] = "input_shortage",
-    [defines.entity_status.waiting_for_plants_to_grow] = "input_shortage",
+    [defines.entity_status.waiting_for_plants_to_grow] = "input_shortage"
 }
 add_common(DATA.status_to_statistic.agricultural_tower)
 
