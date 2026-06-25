@@ -2,9 +2,15 @@
 Version: 0.00.00
 Date: 00. 00. 0000
   Features:
-    -
+    - 
   Changes:
-    -
+    - 
+  Bugfixes:
+    - 
+
+---------------------------------------------------------------------------------------------------
+Version: 2.1.2
+Date: 25. 06. 2026
   Bugfixes:
     - Fixed that the mod would skip the intro cutscene on a new save (#16)
 
