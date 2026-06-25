@@ -1,4 +1,3 @@
-DEV_ACTIVE = true  -- Enables certain conveniences for development
 llog = require("scripts.llog")
 
 REDRAW_CYCLE_RATE = 1 * 60  -- redraws entity status every second

@@ -16,13 +16,6 @@ end
 
 
 script.on_init(function()
-    -- Disable annoying stuff for development
-    local freeplay = remote.interfaces["freeplay"]
-    if DEV_ACTIVE and freeplay then
-        if freeplay["set_skip_intro"] then remote.call("freeplay", "set_skip_intro", true) end
-        if freeplay["set_disable_crashsite"] then remote.call("freeplay", "set_disable_crashsite", true) end
-    end
-
     storage.zones = {}
     storage.zone_running_index = 1
     handlers.reload_settings()

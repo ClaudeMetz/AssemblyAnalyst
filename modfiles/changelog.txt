@@ -6,7 +6,7 @@ Date: 00. 00. 0000
   Changes:
     -
   Bugfixes:
-    -
+    - Fixed that the mod would skip the intro cutscene on a new save (#16)
 
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.1
