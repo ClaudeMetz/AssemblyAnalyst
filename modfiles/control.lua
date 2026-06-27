@@ -80,7 +80,8 @@ DATA.status_to_statistic.inserter = {
     [defines.entity_status.waiting_for_source_items] = "input_shortage",
     [defines.entity_status.waiting_for_more_items] = "input_shortage",
 
-    [defines.entity_status.no_filter] = "disabled"
+    [defines.entity_status.no_filter] = "disabled",
+    [defines.entity_status.disabled] = "disabled"
 }
 add_common(DATA.status_to_statistic.inserter)
 
