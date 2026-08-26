@@ -1,7 +1,20 @@
+---@class Entity
+---@field object LuaEntity
+---@field surface LuaSurface
+---@field statusbar_area { left_top_offset: [number, number], usable_width: number }
+---@field render_objects table<string, LuaRenderObject>
+---@field status_to_statistic table<defines.entity_status, string>
+---@field statistics_blocks table<integer, Statistics>
+---@field newest_block integer
+---@field oldest_block integer
+---@field running_total Statistics
+---@field total_datapoints number
 local Entity = {}
 Entity.__index = Entity
 script.register_metatable("Entity", Entity)
 
+---@param object LuaEntity
+---@return Entity
 function Entity.init(object)
     local entity = {
         object = object,
@@ -20,8 +33,9 @@ function Entity.init(object)
         total_datapoints = nil
     }
     setmetatable(entity, Entity)
+    ---@cast entity Entity
 
-    local collision_box = object.prototype.collision_box
+    local collision_box = object.prototype.collision_box  ---@as Area
     local entity_width = collision_box.right_bottom.x - collision_box.left_top.x
     local entity_height = collision_box.right_bottom.y - collision_box.left_top.y
 
@@ -59,6 +73,8 @@ function Entity:destroy_render_objects()
 end
 
 
+---@param block Statistics
+---@param multiplier integer
 function Entity:add_statistics(block, multiplier)
     for statistic_name, statistic in pairs(block) do
         self.running_total[statistic_name] = self.running_total[statistic_name] + (statistic * multiplier)
@@ -108,7 +124,7 @@ function Entity:redraw_statusbar()
             local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
             right_bottom_offset[1] = new_horizontal_offset
 
-            local color = colors[statistic_name]
+            local color = colors[statistic_name]  ---@as Color
 
             if render_object then
                 render_object.set_corners({entity=entity, offset=left_top_offset},
@@ -116,8 +132,8 @@ function Entity:redraw_statusbar()
                 render_object.color = color
             else
                 render_objects[statistic_name] = rendering.draw_rectangle{
-                    left_top=self.object, left_top_offset=left_top_offset,
-                    right_bottom=self.object, right_bottom_offset=right_bottom_offset,
+                    left_top=entity, left_top_offset=left_top_offset,
+                    right_bottom=entity, right_bottom_offset=right_bottom_offset,
                     surface=self.surface, filled=true, color=color
                 }
             end

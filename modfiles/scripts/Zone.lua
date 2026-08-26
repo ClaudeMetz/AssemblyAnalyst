@@ -2,14 +2,33 @@ local Entity = require("scripts.Entity")
 
 local collides_with = require("math2d").bounding_box.collides_with  -- base game lualib
 
+-- The library types a BoundingBox as 'struct or shorthand array', but the API
+-- only ever hands out the explicit form, which is all this mod deals in
+---@class Area: BoundingBox.struct
+---@field left_top MapPosition.struct
+---@field right_bottom MapPosition.struct
+
+---@class Zone
+---@field surface LuaSurface
+---@field area Area
+---@field entity_map table<uint64, Entity>
+---@field entity_count uint
+---@field render_objects { border: LuaRenderObject }
+---@field cycles table<integer, Entity[]>
+---@field index uint
 local Zone = {}
 Zone.__index = Zone
 script.register_metatable("Zone", Zone)
 
+---@param entity LuaEntity
 function Zone.tracks_entity(entity)
     return entity.type ~= "inserter" or not storage.settings["exclude-inserters"]
 end
 
+---@param surface LuaSurface
+---@param area Area
+---@param entities LuaEntity[]
+---@return Zone?
 function Zone.init(surface, area, entities)
     local zone = {
         surface = surface,
@@ -23,10 +42,12 @@ function Zone.init(surface, area, entities)
         cycles = nil
     }
     setmetatable(zone, Zone)
+    ---@cast zone Zone
 
     for _, entity in pairs(entities) do
         if Zone.tracks_entity(entity) then
-            zone.entity_map[entity.unit_number] = Entity.init(entity)
+            local unit_number = entity.unit_number  ---@as uint64
+            zone.entity_map[unit_number] = Entity.init(entity)
             zone.entity_count = zone.entity_count + 1
         end
     end
@@ -61,6 +82,7 @@ function Zone:reset_statistics()
 end
 
 
+---@param unit_number uint64
 local function tracked_by_any_zone(unit_number)
     for _, zone in pairs(storage.zones) do
         if zone.entity_map[unit_number] ~= nil then return true end
@@ -82,9 +104,10 @@ function Zone:update_inserters()
     else
         local inserters = self.surface.find_entities_filtered{area=self.area, type="inserter"}
         for _, object in pairs(inserters) do
+            local unit_number = object.unit_number  ---@as uint64
             -- Zones can touch, so make sure no other zone tracks this inserter already
-            if not tracked_by_any_zone(object.unit_number) then
-                entity_map[object.unit_number] = Entity.init(object)
+            if not tracked_by_any_zone(unit_number) then
+                entity_map[unit_number] = Entity.init(object)
             end
         end
     end
@@ -118,9 +141,9 @@ function Zone:magnetic_snap()
         local min_x, max_x, min_y, max_y
 
         for _, entity in pairs(self.entity_map) do
-            local position = entity.object.position
+            local position = entity.object.position  ---@as MapPosition.struct
             local x_position, y_position = position.x, position.y
-            local collision_box = entity.object.prototype.collision_box
+            local collision_box = entity.object.prototype.collision_box  ---@as Area
 
             min_x = math.min((min_x or x_position), (x_position + collision_box.left_top.x))
             max_x = math.max((max_x or x_position), (x_position + collision_box.right_bottom.x))
@@ -159,8 +182,11 @@ function Zone:redraw_border()
 end
 
 
+---@param entity LuaEntity
+---@return Area
 local function determine_entity_area(entity)
-    local collision_box, position = entity.prototype.collision_box, entity.position
+    local collision_box = entity.prototype.collision_box  ---@as Area
+    local position = entity.position  ---@as MapPosition.struct
     return {
         left_top = {
             x = position.x + collision_box.left_top.x,
@@ -173,8 +199,11 @@ local function determine_entity_area(entity)
     }
 end
 
+---@param surface LuaSurface
+---@param area Area? nil means the area of the given entity is used instead
+---@param entity LuaEntity?
 function Zone:overlaps_with(surface, area, entity)
-    if area == nil then area = determine_entity_area(entity) end
+    if area == nil then area = determine_entity_area(entity --[[@as LuaEntity]]) end
     return (self.surface.name == surface.name and collides_with(self.area, area))
 end
 
@@ -200,7 +229,11 @@ function Zone:reset_cycle()
     end
 end
 
-function Zone:tick(cycle)
+---@param cycle_index integer
+function Zone:tick(cycle_index)
+    local cycle = self.cycles[cycle_index]
+    if cycle == nil then return end
+
     for _, entity in pairs(cycle) do
         entity:cycle_statistics()
         entity:redraw_statusbar()

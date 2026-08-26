@@ -109,8 +109,7 @@ function handlers.on_tick(event)
 
         if entity_removed then zone:refresh(); gui.refresh_all() end
 
-        local cycle = zone.cycles[current_cycle]
-        if cycle then zone:tick(cycle) end  -- cycles data and redraws status bars
+        zone:tick(current_cycle)  -- cycles data and redraws status bars
     end
 end
 

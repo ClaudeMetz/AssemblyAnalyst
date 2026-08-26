@@ -93,6 +93,14 @@ DATA.status_to_statistic.agricultural_tower = {
 }
 add_common(DATA.status_to_statistic.agricultural_tower)
 
+---@class Statistics
+---@field working number
+---@field output_overload number
+---@field input_shortage number
+---@field insufficient_power number
+---@field disabled number
+
+---@return Statistics
 function DATA.statistics_template()
     return {
         working = 0,

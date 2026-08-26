@@ -69,10 +69,11 @@ end)
 
 
 script.on_event(defines.events.on_player_cursor_stack_changed, function(event)
-    local player = game.get_player(event.player_index)
+    local player = game.get_player(event.player_index)  ---@as LuaPlayer
 
-    local open_info_window = player.cursor_stack.valid_for_read
-      and player.cursor_stack.name == "aa-zone-selector"
+    local cursor_stack = player.cursor_stack  -- nil for controllers without an inventory
+    local open_info_window = cursor_stack ~= nil and cursor_stack.valid_for_read
+      and cursor_stack.name == "aa-zone-selector"
 
     if open_info_window then gui.show_info_window(player)
     else gui.hide_info_window(player) end

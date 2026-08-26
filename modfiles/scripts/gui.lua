@@ -24,7 +24,7 @@ function gui.show_info_window(player)
 
         -- This 'abuses' the inherent order that Factorio Lua pairs brings
         for status_type, _ in pairs(DATA.statistics_template()) do
-            local color = storage.settings.colors[status_type]
+            local color = storage.settings.colors[status_type]  ---@as Color.struct
             table_legend.add{type="label", caption={"aa-gui.legend_color", color.r, color.g, color.b}}
             table_legend.add{type="label", caption={"aa-gui." .. status_type .. "_name"}}
         end
