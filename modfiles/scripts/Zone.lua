@@ -6,6 +6,10 @@ local Zone = {}
 Zone.__index = Zone
 script.register_metatable("Zone", Zone)
 
+function Zone.tracks_entity(entity)
+    return entity.type ~= "inserter" or not storage.settings["exclude-inserters"]
+end
+
 function Zone.init(surface, area, entities)
     local zone = {
         surface = surface,
@@ -21,7 +25,7 @@ function Zone.init(surface, area, entities)
     setmetatable(zone, Zone)
 
     for _, entity in pairs(entities) do
-        if entity.type ~= "inserter" or not storage.settings["exclude-inserters"] then
+        if Zone.tracks_entity(entity) then
             zone.entity_map[entity.unit_number] = Entity.init(entity)
             zone.entity_count = zone.entity_count + 1
         end
@@ -54,6 +58,39 @@ end
 
 function Zone:reset_statistics()
     for _, entity in pairs(self.entity_map) do entity:reset_statistics() end
+end
+
+
+local function tracked_by_any_zone(unit_number)
+    for _, zone in pairs(storage.zones) do
+        if zone.entity_map[unit_number] ~= nil then return true end
+    end
+    return false
+end
+
+-- Brings the tracked inserters in line with the 'exclude-inserters' setting
+function Zone:update_inserters()
+    local entity_map = self.entity_map
+
+    if storage.settings["exclude-inserters"] then
+        for unit_number, entity in pairs(entity_map) do
+            if entity.object.valid and entity.object.type == "inserter" then
+                entity:destroy_render_objects()
+                entity_map[unit_number] = nil
+            end
+        end
+    else
+        local inserters = self.surface.find_entities_filtered{area=self.area, type="inserter"}
+        for _, object in pairs(inserters) do
+            -- Zones can touch, so make sure no other zone tracks this inserter already
+            if not tracked_by_any_zone(object.unit_number) then
+                entity_map[object.unit_number] = Entity.init(object)
+            end
+        end
+    end
+
+    self:reset_cycle()
+    self.entity_count = table_size(entity_map)
 end
 
 

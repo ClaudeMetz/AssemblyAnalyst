@@ -31,6 +31,12 @@ end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     if event.setting_type == "runtime-global" then
         handlers.reload_settings()
+
+        -- Existing zones need to gain or lose their inserters when this is toggled
+        if event.setting == "aa-exclude-inserters" then
+            for _, zone in pairs(storage.zones) do zone:update_inserters() end
+        end
+
         gui.rebuild_all()
 
         for _, zone in pairs(storage.zones) do zone:reset_statistics() end
