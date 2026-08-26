@@ -29,18 +29,20 @@ end)
 
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
-    if event.setting_type == "runtime-global" then
-        handlers.reload_settings()
+    if event.setting_type ~= "runtime-global" then return end
 
+    handlers.reload_settings()
+
+    if event.setting == "aa-exclude-inserters" then
         -- Existing zones need to gain or lose their inserters when this is toggled
-        if event.setting == "aa-exclude-inserters" then
-            for _, zone in pairs(storage.zones) do zone:update_inserters() end
-        end
+        for _, zone in pairs(storage.zones) do zone:update_inserters() end
 
-        gui.rebuild_all()
-
+    elseif event.setting == "aa-window-size" then
+        -- The data that's already collected doesn't fit the new window, so it has to go
         for _, zone in pairs(storage.zones) do zone:reset_statistics() end
     end
+
+    gui.rebuild_all()
 end)
 
 
