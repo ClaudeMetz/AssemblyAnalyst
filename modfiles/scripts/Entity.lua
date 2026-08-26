@@ -96,11 +96,18 @@ function Entity:redraw_statusbar()
 
     -- This 'abuses' the inherent order that Factorio Lua pairs brings
     for statistic_name, statistic in pairs(self.running_total) do
-        if statistic ~= 0 then
+        local render_object = render_objects[statistic_name]
+
+        if statistic == 0 then
+            -- Clean up after a statistic that has dropped out of the window entirely
+            if render_object then
+                render_object.destroy()
+                render_objects[statistic_name] = nil
+            end
+        else
             local new_horizontal_offset = left_top_offset[1] + (usable_width * (statistic / total_datapoints))
             right_bottom_offset[1] = new_horizontal_offset
 
-            local render_object = render_objects[statistic_name]
             local color = colors[statistic_name]
 
             if render_object then
