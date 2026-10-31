@@ -97,6 +97,7 @@ script.on_event(defines.events.on_entity_cloned, function(event)
     handlers.entity_built{entity=event.destination}
 end, entity_built_filter)
 
+script.on_event(defines.events.script_raised_teleported, handlers.entity_teleported, entity_built_filter)
 
 script.on_event(defines.events.on_tick, handlers.on_tick)
 

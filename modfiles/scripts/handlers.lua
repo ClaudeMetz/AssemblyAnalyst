@@ -84,6 +84,34 @@ function handlers.entity_built(event)
     end
 end
 
+-- Updates zone membership after a relevant entity is teleported
+function handlers.entity_teleported(event)
+    local object = event.entity
+
+    if object.type == "entity-ghost" then return end
+    if not Zone.tracks_entity(object) then return end
+
+    for _, zone in pairs(storage.zones) do
+        local entity = zone.entity_map[object.unit_number]
+        if entity then
+            local stays_in_zone = zone:overlaps_with(object.surface, nil, object)
+
+            if not stays_in_zone then
+                entity:destroy_render_objects()
+                zone.entity_map[object.unit_number] = nil
+            end
+
+            zone:refresh()
+            gui.refresh_all()
+
+            if stays_in_zone then return end
+            break
+        end
+    end
+
+    handlers.entity_built(event)
+end
+
 -- Collects statistics and redraws certain statusbars
 function handlers.on_tick(event)
     local current_cycle = (event.tick % REDRAW_CYCLE_RATE) + 1
