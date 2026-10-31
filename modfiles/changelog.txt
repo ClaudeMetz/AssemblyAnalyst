@@ -3,8 +3,10 @@ Version: 0.00.00
 Date: 00. 00. 0000
   Features:
   Changes:
+    - Bumped the required Factorio version to 2.1.22
   Bugfixes:
     - Fixed a crash when selecting a machine that has an unresearched recipe selected (#17)
+    - Fixed a crash when selecting a machine whose input fluid is not at a compatible temperature
 
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4

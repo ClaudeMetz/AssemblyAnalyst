@@ -26,6 +26,9 @@ local common_status = {
     [defines.entity_status.full_burnt_result_output] = "output_overload",
     [defines.entity_status.waiting_for_space_in_destination] = "output_overload",
 
+    [defines.entity_status.input_fluid_too_cold] = "input_shortage",
+    [defines.entity_status.input_fluid_too_hot] = "input_shortage",
+
     [defines.entity_status.no_power] = "insufficient_power",
     [defines.entity_status.low_power] = "insufficient_power",
     [defines.entity_status.no_fuel] = "insufficient_power",
@@ -88,6 +91,7 @@ add_common(DATA.status_to_statistic.inserter)
 DATA.status_to_statistic.agricultural_tower = {
     [defines.entity_status.not_enough_space_in_output] = "output_overload",
 
+    [defines.entity_status.item_ingredient_shortage] = "input_shortage",
     [defines.entity_status.no_spot_seedable_by_inputs] = "input_shortage",
     [defines.entity_status.waiting_for_plants_to_grow] = "input_shortage"
 }
