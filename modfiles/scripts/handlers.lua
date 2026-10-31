@@ -86,7 +86,7 @@ end
 
 -- Collects statistics and redraws certain statusbars
 function handlers.on_tick(event)
-    local current_cycle = event.tick % REDRAW_CYCLE_RATE
+    local current_cycle = (event.tick % REDRAW_CYCLE_RATE) + 1
 
     -- The surface will always be valid because invalid ones are immediately removed
     for _, zone in pairs(storage.zones) do
