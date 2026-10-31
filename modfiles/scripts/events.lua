@@ -90,7 +90,12 @@ local entity_built_filter = {
 
 script.on_event(defines.events.on_built_entity, handlers.entity_built, entity_built_filter)
 script.on_event(defines.events.on_robot_built_entity, handlers.entity_built, entity_built_filter)
+script.on_event(defines.events.on_space_platform_built_entity, handlers.entity_built, entity_built_filter)
 script.on_event(defines.events.script_raised_built, handlers.entity_built, entity_built_filter)
+script.on_event(defines.events.script_raised_revive, handlers.entity_built, entity_built_filter)
+script.on_event(defines.events.on_entity_cloned, function(event)
+    handlers.entity_built{entity=event.destination}
+end, entity_built_filter)
 
 
 script.on_event(defines.events.on_tick, handlers.on_tick)

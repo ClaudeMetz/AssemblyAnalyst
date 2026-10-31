@@ -7,6 +7,7 @@ Date: 00. 00. 0000
   Bugfixes:
     - Fixed a crash when selecting a machine that has an unresearched recipe selected (#17)
     - Fixed a crash when selecting a machine whose input fluid is not at a compatible temperature
+    - Fixed that entities built in an analysis zone on space platforms would not be detected
 
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4
