@@ -3,6 +3,12 @@ Version: 0.00.00
 Date: 00. 00. 0000
   Features:
   Changes:
+  Bugfixes:
+
+---------------------------------------------------------------------------------------------------
+Version: 2.1.5
+Date: 31. 10. 2026
+  Changes:
     - Bumped the required Factorio version to 2.1.22
   Bugfixes:
     - Fixed a crash when selecting a machine that has an unresearched recipe selected (#17)
