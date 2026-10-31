@@ -4,6 +4,7 @@ Date: 00. 00. 0000
   Features:
   Changes:
   Bugfixes:
+    - Fixed a crash when selecting a machine that has an unresearched recipe selected (#17)
 
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4

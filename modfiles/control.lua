@@ -55,8 +55,8 @@ DATA.status_to_statistic.assembler = {
     [defines.entity_status.fluid_ingredient_shortage] = "input_shortage",
 
     [defines.entity_status.no_recipe] = "disabled",
-    [defines.entity_status.recipe_not_researched] = "recipe_not_researched",
-    [defines.entity_status.recipe_is_parameter] = "recipe_is_parameter"
+    [defines.entity_status.recipe_not_researched] = "disabled",
+    [defines.entity_status.recipe_is_parameter] = "disabled"
 }
 add_common(DATA.status_to_statistic.assembler)
 
